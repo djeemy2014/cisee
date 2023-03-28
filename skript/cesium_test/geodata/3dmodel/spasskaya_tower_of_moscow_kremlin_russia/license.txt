@@ -1,0 +1,11 @@
+Model Information:
+* title:	Spasskaya tower of Moscow Kremlin, Russia
+* source:	https://sketchfab.com/3d-models/spasskaya-tower-of-moscow-kremlin-russia-0f1aaa45f39b4156ad28b6b83580251a
+* author:	Mikhail Volkov (https://sketchfab.com/mgv)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Spasskaya tower of Moscow Kremlin, Russia" (https://sketchfab.com/3d-models/spasskaya-tower-of-moscow-kremlin-russia-0f1aaa45f39b4156ad28b6b83580251a) by Mikhail Volkov (https://sketchfab.com/mgv) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

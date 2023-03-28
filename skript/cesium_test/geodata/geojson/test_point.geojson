@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "test_point",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } },
+"features": [
+{ "type": "Feature", "properties": { "fid": 1, "id": 1.0, "shifr": null, "type": null, "name": "Остров Фортов", "startdate": "2021-05-01T00:00:00", "enddate": "2021-11-05T00:00:00", "ext_ref": "ЗдеСЯ ССЫЛОЧКА", "note": null }, "geometry": { "type": "Point", "coordinates": [ 3311353.473724055569619, 8398669.105446625500917 ] } },
+{ "type": "Feature", "properties": { "fid": 2, "id": 2.0, "shifr": null, "type": null, "name": "Охтинский Мыс", "startdate": "2022-09-01T16:32:30", "enddate": "2023-10-28T00:00:00", "ext_ref": "Ссылка", "note": null }, "geometry": { "type": "Point", "coordinates": [ 3384915.769896596670151, 8387251.790684919804335 ] } },
+{ "type": "Feature", "properties": { "fid": 3, "id": 3.0, "shifr": null, "type": null, "name": "УЮН", "startdate": "2021-09-08T16:43:12", "enddate": null, "ext_ref": "Еще ССЫЛКА", "note": null }, "geometry": { "type": "Point", "coordinates": [ 15891531.946113683283329, 5940124.493719867430627 ] } },
+{ "type": "Feature", "properties": { "fid": 4, "id": 4.0, "shifr": null, "type": null, "name": "Москва", "startdate": null, "enddate": null, "ext_ref": null, "note": null }, "geometry": { "type": "Point", "coordinates": [ 4187722.793775144964457, 7508561.985364807769656 ] } }
+]
+}

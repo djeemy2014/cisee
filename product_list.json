@@ -1,0 +1,31 @@
+{
+    "name":"Cisee",
+    "color name":"#232927",
+    "font":"Comfortaa Bold Alt2",
+    "Font size":"2em",
+    "font Letter spacing":"6em",
+    "font Line space":"1.1em",
+    "slogan":"Cisee",
+    "font slogan":"Raleway Medium Alt1",
+
+    "icon":"public\\img\\121591.png",
+    "Icon size":"1em",
+    "Spacing": "1em",
+    "icon Edit Color":"#ED9A28",
+    "background Edit colo":"#F6D9AF",
+    "background Background color":"#FBF9F3",
+    
+    "BRAND COLORS":[
+                "#fbf9f3",
+                "#232927",
+                "#664e27",
+                "#a97427",
+                "#ed9a28"
+    ]
+
+
+}
+
+
+
+

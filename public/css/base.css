@@ -1,0 +1,152 @@
+@charset "UTF-8";
+* {
+    font-family: 'Segoe UI Light', Arial, sans-serif;
+    margin: 0;
+}
+.logo{
+    width: 20%;
+}
+/* #E0E0E0
+#E6E6B6
+#ECEC8C
+#F6F646
+#FFFF00
+#CACA0B
+#949415
+#5F5F1F
+#5F5F1F
+#292929
+#FF00FF */
+
+html {
+    background-color: #e0e0e0;
+    /* background-image: url(img/EW7dOC-XYAQ26Rn.jpg);
+        pacity:0.4; */
+    height: auto;
+}
+
+div.wrapper {
+    margin: 0;
+    height: auto;
+}
+
+.header {
+    border: 2px solid #c9c930;
+    margin: 10px;
+    opacity: 1;
+}
+
+nav {
+    background: #646464;
+    border: 2px solid #F6F646;
+    margin: 10px;
+    width: auto;
+    height: 50px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: block;
+    padding: 0;
+    /* border-color:#87F9F9; */
+}
+
+nav li {
+    display: block;
+    border-color: #FF00FF;
+    width: auto;
+    float: left;
+    padding: 5px;
+    /* height: 100px; */
+}
+
+nav a {
+    color: #ffff14;
+    text-decoration: none;
+    /* border-bottom: 2px dotted #CACA0B; */
+    display: block;
+    margin-bottom: 5px;
+    padding: 5px 0;
+}
+
+main {
+    border: 2px solid #F6F646;
+    margin: 10px;
+}
+
+div {
+    border: 2px solid #F6F646;
+    margin: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #dfb82e;
+}
+
+iframe.map {
+    margin: auto;
+    display: block;
+    width: 97%;
+    height: 1200px;
+}
+
+footer {
+    width: auto;
+    height: 100px;
+    border: 2px solid #8b8b27;
+    margin: 10px;
+    /* background-image:  url(img/EW7dOC-XYAQ26Rn.jpg) */
+}
+
+.body_img {
+    background: url(img/EW7dOC-XYAQ26Rn.jpg) #292929;
+    /* Прописываем путь к картинке и задаем цвет и прозрачность */
+    background-size: cover;
+    /*покрытие всей страницы*/
+    background-repeat: no-repeat;
+    /*неповторять*/
+    background-blend-mode: color-dodge;
+    /* multiply;  */
+    /* фиксировать с экраном */
+    background-attachment: fixed;
+    /* изображение по центру */
+    background-position: 40% 0%;
+    /* text-align:center; Текст по центру */
+    /* color: #000; Цвет текста */
+    /*padding: 300px 0;  Отступ сверху и снизу */
+}
+
+
+/* гексагон */
+
+#hexagon {
+    width: 100px;
+    height: 57.735px;
+    background: rgba(255, 0, 0, 0.171);
+    position: relative;
+}
+
+#hexagon::before {
+    content: "";
+    position: absolute;
+    top: -28.8675px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 28.8675px solid rgba(255, 0, 0, 0.171);
+}
+
+#hexagon::after {
+    content: "";
+    position: absolute;
+    bottom: -28.8675px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 28.8675px solid rgba(255, 0, 0, 0.171);
+}

@@ -1,0 +1,39 @@
+[
+    {
+        "directories": "\\09_GeoData\\1_doc",
+        "description": "Документы необходимые для проекта"
+    },
+    {
+        "directories": "\\09_GeoData\\2_tabl",
+        "description": "Таблицы проекта"
+    },
+    {
+        "directories": "\\09_GeoData\\3_vector",
+        "description": "Векторные данные проекта"
+    },
+    {
+        "directories": "\\09_GeoData\\4_dxf",
+        "description": "Векторные в формате DXF "
+    },
+    {
+        "directories": "\\09_GeoData\\5_rastr",
+        "description": "Растровые данные необходимые для проекта"
+    },
+    {
+
+        "directories": "\\09_GeoData\\6_dem",
+        "description": "Рельеф необходимый для проекта"
+    },
+    {
+        "directories": "\\09_GeoData\\7_map",
+        "description": "Экспортируемые карты проекта"
+    },
+    {
+        "directories": "\\09_GeoData\\8_style",
+        "description": "Стили проекта"
+    },
+    {
+        "directories": "\\09_GeoData\\9_CRS",
+        "description": "Система координат проекта"
+    }
+]

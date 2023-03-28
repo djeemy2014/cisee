@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "3d_model",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "fid": 7, "id": 7, "model": "\/Apps\/geodata\/3dmodel\/MGU\/MGU.gltf", "text": "\/Apps\/geodata\/3dmodel\/MGU\/MGU.gltf" }, "geometry": { "type": "Point", "coordinates": [ 37.530720418098504, 55.703079767991902, 0.0 ] } },
+{ "type": "Feature", "properties": { "fid": 1, "id": 1, "model": "\/Apps\/geodata\/3dmodel\/modular_castle_wall_kit_15_pieces\/scene.gltf", "text": "\/Apps\/geodata\/3dmodel\/modular_castle_wall_kit_15_pieces\/scene.gltf" }, "geometry": { "type": "Point", "coordinates": [ 142.749312577854482, 46.986260887305995, 192.0 ] } },
+{ "type": "Feature", "properties": { "fid": 2, "id": 2, "model": "\/Apps\/geodata\/3dmodel\/lowpoly_city\/scene.gltf", "text": "\/Apps\/geodata\/3dmodel\/lowpoly_city\/scene.gltf" }, "geometry": { "type": "Point", "coordinates": [ 142.753524511398183, 46.987538633183981, 762.0 ] } },
+{ "type": "Feature", "properties": { "fid": 3, "id": 3, "model": "\/Apps\/geodata\/3dmodel\/city_grid_block\/scene.gltf", "text": "\/Apps\/geodata\/3dmodel\/city_grid_block\/scene.gltf" }, "geometry": { "type": "Point", "coordinates": [ 142.675375917604526, 46.914031513344078, 48.0 ] } },
+{ "type": "Feature", "properties": { "fid": 4, "id": 4, "model": "\/Apps\/geodata\/3dmodel\/modular_castle_wall_kit_15_pieces\/scene.gltf", "text": "\/Apps\/geodata\/3dmodel\/modular_castle_wall_kit_15_pieces\/scene.gltf" }, "geometry": { "type": "Point", "coordinates": [ 142.771006814558064, 46.898281747560056, 278.0 ] } },
+{ "type": "Feature", "properties": { "fid": 5, "id": 5, "model": "\/Apps\/geodata\/3dmodel\/ballycarbery_castle_ruin\/scene.gltf", "text": "\/Apps\/geodata\/3dmodel\/ballycarbery_castle_ruin\/scene.gltf" }, "geometry": { "type": "Point", "coordinates": [ 142.767763603570643, 46.868206610615104, 160.0 ] } },
+{ "type": "Feature", "properties": { "fid": 6, "id": 6, "model": "\/Apps\/geodata\/3dmodel\/tower_asset_fot_tower_of_the_wizard_scene\/scene.gltf", "text": "\/Apps\/geodata\/3dmodel\/tower_asset_fot_tower_of_the_wizard_scene\/scene.gltf" }, "geometry": { "type": "Point", "coordinates": [ 142.731021821438247, 46.868346441090353, 40.0 ] } },
+{ "type": "Feature", "properties": { "fid": 37, "id": 37, "model": "\/Apps\/geodata\/3dmodel\/МузейПЛ2.glb", "text": "\/Apps\/geodata\/3dmodel\/3d\/музей_01.glb" }, "geometry": { "type": "Point", "coordinates": [ 29.734732272879043, 59.995618107803182, 0.0 ] } }
+]
+}
