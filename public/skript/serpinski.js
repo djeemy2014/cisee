@@ -175,8 +175,9 @@ let ctx = canvas.getContext('2d')
 
 /* вводные */
 
-const x0 = 400; /* координата начала */
-const y0 = 400; /* координата начала */
+
+const x0 = 400//document.querySelector('input[name="width"]').value; /* координата начала */
+const y0 = 400//document.querySelector('input[name="height"]').value; /* координата начала */
 const R0 = 400; /* радиус */
 const n = 18077; /* 18077 количество вершин фигуры */
 const fi = -Math.PI/2; /* начальный поворот фигуры в радианах */
