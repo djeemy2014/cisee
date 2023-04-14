@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
+    <meta charset="utf-8">
+    <link rel="import" href="/head.html">
+    <link rel="import" href="http://example.com/elements.html">
+    <link rel="icon" href="/img/121591_5.svg">
+    <!-- <title>Работа с участками</title>
+    <link rel="stylesheet" type="text/css" href="/css/base.css"> -->
+ <!--    <style>
         #status{text-align: center;
             font: 1.2em "Fira Sans", sans-serif;}
         table  {
@@ -22,10 +24,11 @@
             font-size: 2em;
             color: #808080;
         }
-    </style>
+    </style> -->
 </head>
 <body>
-    <h1>Программа для получения данных о зонах</h1>
+    
+    <h1>Программа для получения данных об участках</h1>
     <!-- <p>Перед началом необходимо открыть режим разрабодчика и найти консоль браузера (не нужно =))</p> -->
     <!-- <div class="dropFile">Поместить файл .csv сюда</div> -->
     <input type="file" id="inputFile">Поместить файл .txt сюда</input></br></br>
@@ -42,6 +45,11 @@
                     <th>cn</th>
                     <th>acnum</th>
                     <th>name_zone</th>
+                    <th>address</th>
+                    <th>area_value</th>
+                    <th>дата внесения сведений</th>
+                    <th>дата определения</th>
+                    <th>дата применения</th>
                 </tr>
             </thead>
             <tbody>
@@ -140,8 +148,23 @@ await fetch(url,
             outputData[i-k][1]=json.feature.attrs.cn
             outputData[i-k][2]=json.feature.attrs.fp
             outputData[i-k][3]=json.feature.attrs.util_by_doc
+            outputData[i-k][4]=json.feature.attrs.address
+            outputData[i-k][5]=json.feature.attrs.area_value
+            outputData[i-k][6]=json.feature.attrs.cc_date_entering
+            outputData[i-k][7]=json.feature.attrs.date_cost
+            outputData[i-k][8]=json.feature.attrs.application_date
             let table = document.querySelector('tbody')
-            table.innerHTML+=`<tr><td>${outputData[i-k][0]}</td><td>${outputData[i-k][1]}</td><td>${outputData[i-k][2]}</td><td>${outputData[i-k][3]}</td></tr>`
+            table.innerHTML+=`<tr>
+                <td>${outputData[i-k][0]}</td>
+                <td>${outputData[i-k][1]}</td>
+                <td>${outputData[i-k][2]}</td>
+                <td>${outputData[i-k][3]}</td>
+                <td>${outputData[i-k][4]}</td>
+                <td>${outputData[i-k][5]}</td>
+                <td>${outputData[i-k][6]}</td>
+                <td>${outputData[i-k][7]}</td>
+                <td>${outputData[i-k][8]}</td>
+                </tr>`
             i++
             if (i>=inputListing.length){
                 console.log('Закончил');
@@ -301,5 +324,6 @@ async function fuction3() {
 
 
     </script>
+
 </body>
 </html>

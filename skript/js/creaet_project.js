@@ -1,12 +1,16 @@
 import fs from 'fs';
 //import projectDirectoriesJSON from './skript/js/pathList.json'
 //базовый каталок
-const baseFolder = '//nas.ggp.local\\Public\\FS\\Градостроительство\\2022\\СТП Липецкой области';
+const baseFolder = 'O:/Градостроительство/РАЗНОЕ/ПРОЕКТЫ/Домбай';
 const url01 = '\\09_GeoData\\2_doc';
 //const projectDirectories2 = JSONstr(projectDirectoriesJSON)
 //console.log(projectDirectories2)
 //описание каталогов проекта
 const projectDirectories = [
+    {
+        "directories": '\\09_GeoData\\0_tmp',
+        "description": 'Временные данные',
+    },
     {
         "directories": '\\09_GeoData\\1_doc',
         "description": 'Документы необходимые для проекта',
@@ -18,6 +22,18 @@ const projectDirectories = [
     {
         "directories": '\\09_GeoData\\3_vector',
         "description": 'Векторные данные проекта',
+    },
+    {
+        "directories": '\\09_GeoData\\3_vector\\KPT',
+        "description": 'Векторные данные KPT',
+    },
+    {
+        "directories": '\\09_GeoData\\3_vector\\tmp',
+        "description": 'Временные данные',
+    },
+    {
+        "directories": '\\09_GeoData\\3_vector\\OSM',
+        "description": 'Векторные данные OSM',
     },
     {
         "directories": '\\09_GeoData\\4_dxf',

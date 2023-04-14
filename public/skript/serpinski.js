@@ -179,15 +179,15 @@ let ctx = canvas.getContext('2d')
 const x0 = 400//document.querySelector('input[name="width"]').value; /* координата начала */
 const y0 = 400//document.querySelector('input[name="height"]').value; /* координата начала */
 const R0 = 400; /* радиус */
-const n = 18077; /* 18077 количество вершин фигуры */
+const n = 3; /* 18077 количество вершин фигуры */
 const fi = -Math.PI/2; /* начальный поворот фигуры в радианах */
-const step0 = 1/((1 + Math.sqrt(5)) / 2); /* шаг 240 / 300  107.6 / (100 * ((1 + Math.sqrt(5)) / 2)) */
+const step0 = 1/2//1/((1 + Math.sqrt(5)) / 2); /* шаг 240 / 300  107.6 / (100 * ((1 + Math.sqrt(5)) / 2)) */
 
 const start_color = [255,255,255]
 const end_color = [0,0,0]
 
 //console.log(step0, 1 / step0)
-const interatif = 200000; /* итераций */
+const interatif = 2000000; /* итераций */
 
 let xstart = Math.random() * (R0 - 1); /* координата случайной точеки */
 let уstart = Math.random() * (R0 - 1); /* координата случайной точеки */
@@ -238,21 +238,3 @@ ctx.stroke()
 }) */
 
 //console.log(text_list_coord);
-
-
-
-
-
-/* тестировка */
-/* let x1 = 0,
-    y1 = 0,
-    x2 = 10,
-    y2 = 10; */
-/* let nav = DistAngl2(x1, y1, x2, y2);
-console.log(nav);
-let coord = NewXY(x1, y1, nav.distance, nav.angle);
-console.log(coord);*/
-/* let fig = regular_polygon_C(0, 0, R0, n, 0);
-console.log(fig); */
-/* let step1 = drive1(x0, y0, x2, y2, step0);
-console.log(step1); */
