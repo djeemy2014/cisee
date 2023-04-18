@@ -2,7 +2,6 @@ import fs from 'fs';
 //import projectDirectoriesJSON from './skript/js/pathList.json'
 //базовый каталок
 const baseFolder = 'O:/Градостроительство/РАЗНОЕ/ПРОЕКТЫ/Домбай';
-const url01 = '\\09_GeoData\\2_doc';
 //const projectDirectories2 = JSONstr(projectDirectoriesJSON)
 //console.log(projectDirectories2)
 //описание каталогов проекта
