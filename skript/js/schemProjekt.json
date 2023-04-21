@@ -1,0 +1,75 @@
+[
+    {
+        "directories": "09_GeoData",
+        "description": "Основной католог",
+        "substructs": [
+
+        {
+            "directories": "0_tmp",
+            "description": "Временные данные",
+            "substructs": null
+        },
+        {
+            "directories": "1_doc",
+            "description": "Документы необходимые для проекта",
+            "substructs": null
+        },
+        {
+            "directories": "2_tabl",
+            "description": "Таблицы проекта",
+            "substructs": null
+        },
+        {
+            "directories": "3_vector",
+            "description": "Векторные данные проекта",
+            "substructs": [
+                {
+                    "directories": "KPT",
+                    "description": "Векторные данные KPT",
+                    "substructs": null
+                },
+                {
+                    "directories": "tmp",
+                    "description": "Временные данные",
+                    "substructs": null
+                },
+                {
+                    "directories": "OSM",
+                    "description": "Векторные данные OSM",
+                    "substructs": null
+                }
+                ]
+        },
+        {
+            "directories": "4_dxf",
+            "description": "Векторные в формате DXF ",
+            "substructs": null
+        },
+        {
+            "directories": "5_rastr",
+            "description": "Растровые данные необходимые для проекта",
+            "substructs": null
+        },
+        {
+
+            "directories": "6_dem",
+            "description": "Рельеф необходимый для проекта",
+            "substructs": null
+        },
+        {
+            "directories": "7_map",
+            "description": "Экспортируемые карты проекта",
+            "substructs": null
+        },
+        {
+            "directories": "8_style",
+            "description": "Стили проекта",
+            "substructs": null
+        },
+        {
+            "directories": "9_CRS",
+            "description": "Система координат проекта",
+            "substructs": null
+        }
+        ]    
+    }]
