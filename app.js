@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 // 👇️ "/home/john/Desktop/javascript"
 const __dirname = path.dirname(__filename);
-console.log(__filename)
+console.dir(__filename)
 console.log('directory-name 👉️', __dirname);
 
 // 👇️ "/home/borislav/Desktop/javascript/dist/index.html"
@@ -18,13 +18,14 @@ console.log('directory-name 👉️', __dirname);
 
 
 const app=express()
+const host='10.0.5.190'
 const hostname = 'localhost' //'10.0.5.190'//'djeemy.testserver.com'
 const port= 18077
 console.log(app.listen)
 const optionsPath={ root: __dirname }
 const options = {
-  host: '10.0.5.190',
-  //hostname: hostname,
+  host: host,
+  hostname: hostname,
   port: port,
   path: '/',
   method: 'GET'
@@ -57,7 +58,8 @@ app.get('/creaet_project',function(req,res){
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`listening on host ${host} port ${port}`)
+  console.log(`http://${host}:${port}/`)
 
 })
 

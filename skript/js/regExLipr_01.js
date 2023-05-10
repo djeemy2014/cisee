@@ -49,7 +49,7 @@ function createPoligon(arr){
         //console.log(endList[index])
     })
     //console.log(endList)
-    return [endList]
+    return endList
 }
 //createPoligon(arrrrrr)
 //выборка по условию
@@ -82,7 +82,7 @@ list.forEach((res, index) => {
             "type": "Feature",
             "properties":res,
             "geometry":{ 
-                "type": "Collection", 
+                "type": "MultiPolygon", 
                 "coordinates":mPlogon
             }
         }
