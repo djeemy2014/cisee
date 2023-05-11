@@ -1,5 +1,6 @@
 import XLSX from 'xlsx';
 import fs from 'fs'
+import gdal from 'gdal-async'
 //программа берет данные сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
 const input_xlsx = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510.xlsx";
 const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_2.xlsx"; //Чернушенский Соликамский ALL20230313
