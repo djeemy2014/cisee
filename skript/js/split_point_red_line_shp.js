@@ -7,8 +7,8 @@ console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
 const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.gpkg";
 const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="Red_Line_point_20230510_4.xlsx";
-const output_newlaer="Red_Line_point_20230510_4_1_new"
+const output_xlsx="Red_Line_point_20230510_test.xlsx";
+const output_newlaer="Red_Line_point_20230510_test_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
@@ -136,8 +136,11 @@ layer_new.fields.add(new gdal.FieldDefn('typeGeometry', gdal.OFTString));
 
 //console.log(Object.keys(result[0]))
 console.time('ev')
-result.forEach(ev=>{
-    let feature = new gdal.Feature(layer_new)
+let feature = new gdal.Feature(layer_new)
+result.forEach((ev, index)=>{
+    console.log(`start.${index}`)
+    console.time('ev2')
+    console.timeLog('ev2')
     feature.fields.set('ID', ev.fid);
     feature.fields.set('Номер точки', ev['Номер точки']);
     feature.fields.set('Номер контура', ev['Номер контура']);
@@ -145,9 +148,16 @@ result.forEach(ev=>{
     feature.fields.set('x', ev.x);
     feature.fields.set('y', ev.y);
     feature.fields.set('typeGeometry', ev.typeGeometry);
+    console.log(`point1.${index}`)
+    console.timeLog('ev2')
     feature.setGeometry(new gdal.Point(ev.x, ev.y));
-    layer_new.features.add(feature);
+    console.log(`point2.${index}`)
+    console.timeLog('ev2')
+    console.log(`end.${index}`)
+    console.timeLog('ev2')
+    console.timeEnd('ev2')
 })
+layer_new.features.add(feature);
 console.log('end')
 console.timeLog(event1)
 //gdal.drivers.forEach(function(drive,i){
