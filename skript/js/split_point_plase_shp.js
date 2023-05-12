@@ -5,16 +5,17 @@ import gdal from 'gdal-async'
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.gpkg";
-const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="Red_Line_point_20230510_4.xlsx";
-const output_newlaer="Red_Line_point_20230510_4_1_new"
+const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_20230512_point.gpkg";
+//const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
+const output_xlsx="plant_20230512_point_new.xlsx";
+const output_newlaer="plant_20230512_point_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
 let j=1;
 let q=0;
 let maxim=0, miniim=10;
+
 const dir_input=path.dirname(input_filegeometry)
 console.log(dir_input)
 console.log(path.basename(input_filegeometry))
@@ -28,17 +29,22 @@ const srs_layer=layer.srs
 //const f_geom =layer.features.first().getGeometry()
 //console.log(0,f_geom.x, f_geom.y)
 //console.log(0, JSON.parse( layer.features.first().fields.toJSON()))
+console.log(0, ( layer.features.first().fid))
 console.log('start work')
 console.timeLog(event1)
 layer.features.forEach((ev, index)=>{
     agrigetObj[index]=JSON.parse(ev.fields.toJSON())
-    //console.log(agrigetObj[index])
+    //console.log(ev)
+    agrigetObj[index].fid=ev.fid
     agrigetObj[index].x= Math.round (ev.getGeometry().x*100)/100
     agrigetObj[index].y= Math.round (ev.getGeometry().y*100)/100
-    maxim=Math.max(maxim,agrigetObj[index].vertex_part)
-    miniim=Math.min(miniim,agrigetObj[index].vertex_part)
+    //console.log(agrigetObj[index].old_numZU)
+    maxim=Math.max(maxim,agrigetObj[index].old_numZU)
+    miniim=Math.min(miniim,agrigetObj[index].old_numZU)
 })
-//console.log(agrigetObj)
+console.log(agrigetObj.length)
+console.log(maxim)
+console.log(miniim)
 //console.log(JSON.stringify(layer.features))
 //console.log("fields: " + layer.fields.getNames())
 //console.log("srs: " + (layer.srs ? layer.srs.toWKT() : 'null'))
@@ -58,16 +64,17 @@ const line_vertex_par = list.reduce((x, y) => Math.max(x, y))
 console.log('start JSON')
 console.timeLog(event1)
 for (let i =miniim; i<=maxim;i++){
-    list_line=agrigetObj.filter(ev=>ev['vertex_part']==i)
-    //console.log(i, list_line.length)
+    list_line=agrigetObj.filter(ev=>ev['old_numZU']==i)
+    //console.log(i,  list_line.length)
     //console.log(i, list_line[0].x, list_line[0].y,list_line[list_line.length-1].x, list_line[list_line.length-1].y)
     if (list_line[0].x==list_line[list_line.length-1].x&&list_line[0].y==list_line[list_line.length-1].y){
         list_line[list_line.length-1].vertex_part_index=0;
         list_line.forEach((ev, index)=>{
+            //console.log(ev)
             result[q]={
-                fid: ev.vertex_index,
+                nid: ev.fid,
                 "Номер точки": ev.vertex_part_index+j,
-                "Номер контура": ev.vertex_part,
+                "Номер контура": ev.old_numZU,
                 "Номер точки в контуре": ev.vertex_part_index,
                 x: ev.x,
                 y: ev.y,
@@ -80,10 +87,11 @@ for (let i =miniim; i<=maxim;i++){
         //console.log(i, list_line[0].x, list_line[0].y,list_line[list_line.length-1].x, list_line[list_line.length-1].y)
     }else{
         list_line.forEach((ev, index)=>{
+            //console.log(ev)
             result[q]={
-                fid: ev.vertex_index,
+                nid: ev.old_numZU,
                 "Номер точки": ev.vertex_part_index+j,
-                "Номер контура": ev.vertex_part,
+                "Номер контура": ev.vertex_index,
                 "Номер точки в контуре": ev.vertex_part_index,
                 x: ev.x,
                 y: ev.y,
@@ -97,7 +105,7 @@ for (let i =miniim; i<=maxim;i++){
     //result=result.concat(list_line)
 }
 
-//console.log(result)
+console.log(result.length)
 //list.forEach(ev=>{
 //    if (ev['vertex_par']==0){
 //        console.log(ev)
@@ -138,7 +146,7 @@ layer_new.fields.add(new gdal.FieldDefn('typeGeometry', gdal.OFTString));
 console.time('ev')
 result.forEach(ev=>{
     let feature = new gdal.Feature(layer_new)
-    feature.fields.set('ID', ev.fid);
+    feature.fields.set('ID', ev.nid);
     feature.fields.set('Номер точки', ev['Номер точки']);
     feature.fields.set('Номер контура', ev['Номер контура']);
     feature.fields.set('Номер точки в контуре', ev['Номер точки в контуре']);
