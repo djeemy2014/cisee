@@ -43,6 +43,7 @@
                 <tr>
                     <th>id</th>
                     <th>cn</th>
+                    <th>№ ЕЗП</th>
                     <th>acnum</th>
                     <th>name_zone</th>
                     <th>address</th>
@@ -146,13 +147,14 @@ await fetch(url,
             outputData[i-k]=[]
             outputData[i-k][0]=json.feature.attrs.id
             outputData[i-k][1]=json.feature.attrs.cn
-            outputData[i-k][2]=json.feature.attrs.fp
-            outputData[i-k][3]=json.feature.attrs.util_by_doc
-            outputData[i-k][4]=json.feature.attrs.address
-            outputData[i-k][5]=json.feature.attrs.area_value
-            outputData[i-k][6]=json.feature.attrs.cc_date_entering
-            outputData[i-k][7]=json.feature.attrs.date_cost
-            outputData[i-k][8]=json.feature.attrs.application_date
+            outputData[i-k][2]=json.feature.attrs.parent_id
+            outputData[i-k][3]=json.feature.attrs.fp
+            outputData[i-k][4]=json.feature.attrs.util_by_doc
+            outputData[i-k][5]=json.feature.attrs.address
+            outputData[i-k][6]=json.feature.attrs.area_value
+            outputData[i-k][7]=json.feature.attrs.cc_date_entering
+            outputData[i-k][8]=json.feature.attrs.date_cost
+            outputData[i-k][9]=json.feature.attrs.application_date
             let table = document.querySelector('tbody')
             table.innerHTML+=`<tr>
                 <td>${outputData[i-k][0]}</td>
@@ -164,6 +166,7 @@ await fetch(url,
                 <td>${outputData[i-k][6]}</td>
                 <td>${outputData[i-k][7]}</td>
                 <td>${outputData[i-k][8]}</td>
+                <td>${outputData[i-k][9]}</td>
                 </tr>`
             i++
             if (i>=inputListing.length){
