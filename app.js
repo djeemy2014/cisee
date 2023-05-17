@@ -1,6 +1,7 @@
 import express from 'express'
 import fs from 'fs'
 import http from 'http'
+import pg from 'pg';
 
 import path from 'path';
 import {fileURLToPath} from 'url';
@@ -30,6 +31,50 @@ const options = {
   path: '/',
   method: 'GET'
 }
+
+function updatebd() {
+  var urs = 'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/cesium_test/geodata/geojson/test_point_4326.geojson' //ссылка на файл для перезаписи
+      //запрос
+  var sql = 'SELECT json_build_object(\'type\', \'FeatureCollection\', \'name\',\'test_point_4326\', \'crs\', json_build_object( \'type\', \'name\',  \'properties\', json_build_object( \'name\', \'urn:ogc:def:crs:OGC:1.3:CRS84\' ) ), \'features\', json_agg(ST_AsGeoJSON(public."test_point_4326".*)::json))from public."test_point_4326";'
+
+  const client = new pg.Client({
+      user: 'dda',
+      password: 'dda',
+      host: '10.0.1.10',
+      database: 'CommonDB',
+      port: 5432,
+  });
+  client.connect(err => {
+      if (err) {
+          console.error('connection error', err.stack)
+      } else {
+          console.log('connected')
+              //document.write('connected')
+      }
+  })
+
+  client.query(sql, (err, res) => {
+      if (err) throw err
+          //response.status(200).json(res.rows[0].json_build_object)
+
+      //console.log(geojson_01)
+
+      let geojson_01 = JSON.stringify(res.rows[0].json_build_object)
+
+      fs.writeFile(urs, geojson_01, (err) => {
+          if (err) throw err;
+          console.log('The file has been saved! при запуске сайта', new Date());
+          //var loggood = 'The file has been saved!2'
+
+
+      });
+      //document.body.innerHTML ="<h1>"+res.rows[0].json+"</h1>"
+      client.end()
+  })
+}
+
+
+
 
 
     // eventually this mime type configuration will need to change
@@ -89,6 +134,8 @@ app.get('/creaet_project',function(req,res){
   console.dir(req)
   console.dir(res)
 }) */
+setInterval(updatebd,36e5)
+updatebd();
 
 app.listen(port, () => {
   console.log(`listening on host ${host} port ${port}`)

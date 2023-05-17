@@ -32,7 +32,7 @@ function startup(Cesium) {
         timeline: false,
         animation: false,
         homeButton: false,
-        terrainProvider: cesiumTerrainProvider,
+        terrainProvider: ellipsoidProvider,
         imageryProvider: openstreetmapimagery,
 
     };
@@ -70,7 +70,8 @@ function startup(Cesium) {
 
 
 
-
+  
+   
 
     //Точки проектов
     //console.log(['Начало_1', viewModel.statshow]);
@@ -484,7 +485,7 @@ function startup(Cesium) {
 
     update(); */
 
-
+    viewer.scene.primitives.add(Cesium.createOsmBuildings());
     //Настройки стартовой камеры
 
     viewer.camera.lookAt(
