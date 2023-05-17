@@ -53,7 +53,19 @@ function startup(Cesium) {
         nanshow: true,
         homeshow: true,
     };
-
+    //НУЖНЫЕ ФУНКЦИИ
+    function createModel(url, position, orientation) {
+        let entity = viewer.entities.add({
+            name: url,
+            position: position,
+            orientation: orientation,
+            model: {
+                uri: url,
+                //minimumPixelSize: 128,
+                //maximumScale: 20000,
+            },
+        });
+    }
 
 
 
@@ -63,7 +75,7 @@ function startup(Cesium) {
     //Точки проектов
     //console.log(['Начало_1', viewModel.statshow]);
     let promiseTestPoint_p = Cesium.GeoJsonDataSource.load(
-        "/Apps/geodata/geojson/test_point_4326.geojson")
+        "./geodata/geojson/test_point_4326.geojson")
 
     .then(async function(dataSource) {
             viewer.dataSources.add(dataSource);
@@ -85,8 +97,8 @@ function startup(Cesium) {
 
                 if (entity.properties.type == 'Global') {
                     entity.billboard = {
-                        image: "/Apps/geodata/lebels/Berisamokat-3_transp.svg",
-                        //image: "/Apps/geodata/lebels/1320866-ffffff.svg",
+                        image: "./geodata/lebels/Berisamokat-3_transp.svg",
+                        //image: "./geodata/lebels/1320866-ffffff.svg",
                         scale: 0.25,
                         //color: Cesium.Color.fromRandom({blue:0.8, green:0.5,alpha: 1,}),
                         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
@@ -94,10 +106,10 @@ function startup(Cesium) {
                         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
                     };
                 } else if (entity.properties.type == 'Local') {
-                    //entity.billboard.image= "/Apps/geodata/lebels/1001598-ffffff.svg";
+                    //entity.billboard.image= "./geodata/lebels/1001598-ffffff.svg";
                     entity.billboard = {
-                        image: "/Apps/geodata/lebels/cityscape-city-svgrepo-com.svg",
-                        //image: "/Apps/geodata/lebels/1001598-ffffff.svg",
+                        image: "./geodata/lebels/cityscape-city-svgrepo-com.svg",
+                        //image: "./geodata/lebels/1001598-ffffff.svg",
                         scale: 0.5,
                         //color: Cesium.Color.fromRandom({blue:0.8, green:0.5,alpha: 1,}),
                         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
@@ -106,8 +118,8 @@ function startup(Cesium) {
                     };
                 } else {
                     entity.billboard = {
-                        image: "/Apps/geodata/lebels/home-svgrepo-com (1).svg",
-                        //image: "/Apps/geodata/lebels/37296-ffffff.svg",
+                        image: "./geodata/lebels/home-svgrepo-com (1).svg",
+                        //image: "./geodata/lebels/37296-ffffff.svg",
                         scale: 0.5,
                         //color: Cesium.Color.fromRandom({blue:0.8, green:0.5,alpha: 1,}),
                         heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
@@ -125,9 +137,9 @@ function startup(Cesium) {
             }
 
         })
-        .otherwise(function(error) {
+        /* .otherwise(function(error) {
             console.log(error);
-        });
+        }); */
 
     //console.log('Начало_2');
 
@@ -139,7 +151,7 @@ function startup(Cesium) {
 
     //Линии субъектов
     let promiseShtat_L = Cesium.GeoJsonDataSource.load(
-            "/Apps/geodata/geojson/Субъекты РФ_line.geojson"
+            "./geodata/geojson/Субъекты РФ_line.geojson"
         )
         .then(async function(dataSource) {
             return viewer.dataSources.add(dataSource);
@@ -160,9 +172,9 @@ function startup(Cesium) {
             }
             //entity.polyline.clampToGround = true;
         })
-        .otherwise(function(error) {
+        /* .otherwise(function(error) {
             console.log(error);
-        });
+        }); */
 
 
     /*
@@ -173,7 +185,7 @@ function startup(Cesium) {
    // ){if (checked==true){
        
       let promiseShtat_G = Cesium.GeoJsonDataSource.load(
-		        	"/Apps/geodata/geojson/Субъекты РФ.geojson"
+		        	"./geodata/geojson/Субъекты РФ.geojson"
 		        	)
                 .then(function (dataSource) {
 		        	return viewer.dataSources.add(dataSource);
@@ -219,10 +231,10 @@ function startup(Cesium) {
           
         */
     //   }});
-    //Здания УЮН
+    /* //Здания УЮН
     //let promise = Cesium.IonResource.fromAssetId(588507)
     let promise = Cesium.GeoJsonDataSource.load(
-            "/Apps/geodata/geojson/Здания проектируемые.geojson"
+            "./geodata/geojson/Здания проектируемые.geojson"
         )
         .then(async function(dataSource) {
             return viewer.dataSources.add(dataSource);
@@ -285,10 +297,10 @@ function startup(Cesium) {
         .otherwise(function(error) {
             console.log(error);
         });
-
-    //здания Кроншад
+ */
+    /* //здания Кроншад
     let promise_2 = Cesium.GeoJsonDataSource.load(
-            "/Apps/geodata/geojson/Kronstad.geojson"
+            "./geodata/geojson/Kronstad.geojson"
         )
         .then(function(dataSource) {
             return viewer.dataSources.add(dataSource);
@@ -350,25 +362,14 @@ function startup(Cesium) {
         })
         .otherwise(function(error) {
             console.log(error);
-        });
+        }); */
 
-    //3D-mode, УЮН
+    /* //3D-mode, УЮН
 
-    function createModel(url, position, orientation) {
-        let entity = viewer.entities.add({
-            name: url,
-            position: position,
-            orientation: orientation,
-            model: {
-                uri: url,
-                //minimumPixelSize: 128,
-                //maximumScale: 20000,
-            },
-        });
-    }
+    
 
     let promise_0 = Cesium.GeoJsonDataSource.load(
-            "/Apps/geodata/geojson/3d_model.geojson"
+            "./geodata/geojson/3d_model.geojson"
         )
         .then(async function(dataSource) {
             //viewer.dataSources.add(dataSource);
@@ -394,10 +395,10 @@ function startup(Cesium) {
         .otherwise(function(error) {
             //Display any errrors encountered while loading.
             window.alert(error);
-        });
-    //3D-mode экста тест на большой объем данных
+        }); */
+    /* //3D-mode экста тест на большой объем данных
     let promise_10 = Cesium.GeoJsonDataSource.load(
-            "/Apps/geodata/geojson/3d_model_extra_test_100.geojson"
+            "./geodata/geojson/3d_model_extra_test_100.geojson"
         )
         .then(function(dataSource) {
             //viewer.dataSources.add(dataSource);
@@ -424,7 +425,7 @@ function startup(Cesium) {
             //Display any errrors encountered while loading.
             window.alert(error);
         });
-
+ */
 
     //3D-mode, Moscow
     let lon = 37.62144589;
@@ -441,7 +442,7 @@ function startup(Cesium) {
         position_3d,
         hpr_d3
     );
-    createModel("/Apps/geodata/3dmodel/spasskaya_tower_of_moscow_kremlin_russia_2/scene.gltf", position_3d, orientation_d3);
+    createModel("./geodata/3dmodel/spasskaya_tower_of_moscow_kremlin_russia_2/scene.gltf", position_3d, orientation_d3);
 
 
 
@@ -458,11 +459,12 @@ function startup(Cesium) {
     Cesium.knockout.applyBindings(viewModel, toolbar);
     for (let name in viewModel) {
         if (viewModel.hasOwnProperty(name)) {
-            Cesium.knockout.getObservable(viewModel, name).subscribe(update);
+            Cesium.knockout.getObservable(viewModel, name)
+            //.subscribe(update);
         }
     }
 
-    function update() {
+/*     function update() {
         //entity.polyline.show = viewModel.statshow
         //entity.polyline.clampToGround=true;
         promiseTestPoint_p
@@ -480,7 +482,7 @@ function startup(Cesium) {
     }
 
 
-    update();
+    update(); */
 
 
     //Настройки стартовой камеры

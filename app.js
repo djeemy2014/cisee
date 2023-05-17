@@ -30,11 +30,39 @@ const options = {
   path: '/',
   method: 'GET'
 }
+
+
+    // eventually this mime type configuration will need to change
+    // https://github.com/visionmedia/send/commit/d2cb54658ce65948b0ed6e5fb5de69d022bef941
+    // *NOTE* Any changes you make here must be mirrored in web.config.
+const mime = express.static.mime;
+    mime.define({
+            "application/json": ["czml", "json", "geojson", "topojson"],
+            "application/wasm": ["wasm"],
+            "image/ktx2": ["ktx2"],
+            "model/gltf+json": ["gltf"],
+            "model/gltf-binary": ["bgltf", "glb"],
+            "application/octet-stream": [
+                "b3dm",
+                "pnts",
+                "i3dm",
+                "cmpt",
+                "geom",
+                "vctr",
+            ],
+            "text/plain": ["glsl"],
+        },
+        true
+    );
+
+
 app.get('/ab?cd', function(req, res) {
   res.send('ab?cd');
 });
 //app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));
+app.use('/module',express.static(__dirname + '/node_modules/cesium/Build/Cesium'));
+app.use('/cesium_test',express.static(__dirname + '/skript/cesium_test'));
 
 //сюда пишеться метод ля вставки head в любую странийцу
 //app.head('/head/',function(req,res) {
@@ -49,13 +77,18 @@ app.get('/skript/fetchPKK_1/',function(req,res) {
   res.sendFile('./skript/fetchPKK_1.html',optionsPath);
   console.dir(req.ip)
 })
-app.get('/skript/cesium_test/',function(req,res) {
-  res.sendFile('./skript/cesium_test/Test_0.html',optionsPath);
+app.get('./skript/cesium_test/Test_1.html',function(req,res) {
+  res.sendFile('./skript/cesium_test/Test_1.html',optionsPath);
   console.dir(req.ip)
 })
 app.get('/creaet_project',function(req,res){
   res.sendFile('skript\\js\\creaet_project.js',optionsPath)
 })
+/* app.get('/module',function(req,res){
+  res.use('./node_modules/cesium/Build/Cesium')
+  console.dir(req)
+  console.dir(res)
+}) */
 
 app.listen(port, () => {
   console.log(`listening on host ${host} port ${port}`)
