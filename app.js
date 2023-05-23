@@ -108,6 +108,9 @@ app.get('/ab?cd', function(req, res) {
 app.use(express.static(__dirname + '/public'));
 app.use('/module',express.static(__dirname + '/node_modules/cesium/Build/Cesium'));
 app.use('/cesium_test',express.static(__dirname + '/skript/cesium_test'));
+/* app.get('(\\S)*',function(req,res){
+  console.dir(req.ip)
+} ) */
 
 //сюда пишеться метод ля вставки head в любую странийцу
 //app.head('/head/',function(req,res) {
