@@ -2,6 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import gdal from 'gdal-async';
 
+
+
+//import input_data from './dagestan.json' assert {type: 'json'}; Неработает
+let input_data = JSON.parse( fs.readFileSync('./dagestan.json')).result.data
+
+//регулярки
+const regexpCoordSys=/(?<=(Система координат - ))\S{0,50}/;
+const regexpType=/(?<=(Тип пространственного объекта - ))\S{0,50}/g;
+
+let output_data=[]
+let output_data_point=[]
+let output_data_line=[]
+let output_data_poligon=[]
+let output_data_NaN=[]
+let output_data_tible=[]
+
+
 //функция обработки градусов
 function calcToDec(str){
     //console.log(str)
@@ -39,21 +56,6 @@ function createPoligon(arr){
 
 
 
-//import input_data from './dagestan.json' assert {type: 'json'}; Неработает
-let input_data = JSON.parse( fs.readFileSync('./dagestan.json')).result.data
-
-//регулярки
-const regexpCoordSys=/(?<=(Система координат - ))\S{0,50}/;
-const regexpType=/(?<=(Тип пространственного объекта - ))\S{0,50}/g;
-
-let output_data=[]
-let output_data_point=[]
-let output_data_line=[]
-let output_data_poligon=[]
-let output_data_NaN=[]
-let output_data_tible=[]
-
-
 console.log(Object.keys( input_data))
 console.log(input_data.totals)
 Object.keys( input_data).forEach(ev=>{
@@ -84,22 +86,12 @@ for (let i=0;i<input_data.rows.length;i++){
         //console.log(regexpCoordSys.lastIndex)
         //switch()
 
-        console.log(i, selectColon.match(regexpType) )
+        //тут нужно разбирать и сортировать
         if ( selectColon.match(regexpType)===null){
-
-            console.log(i,selectColon)
-            
-
-
-  /*           if (selectColon.match(regexpType).length>1){
-                //console.log(i,selectColon)
-            }else{
-                console.log(i,selectColon)
-            } */
-            //console.log(i,regexpCoordSys.test(selectColon))
+            output_data_point.push(odject_data_set)
             
         }else{
-
+            console.log(i, selectColon.match(regexpType) )
         }
         //regexpCoordSys.lastIndex=0
     }
@@ -111,7 +103,8 @@ let maxi=0
 output_data_tible.forEach((ev, index)=>(
     maxi=Math.max(index,maxi)
 ))
-console.log(output_data_tible[maxi])
+console.log(output_data_tible.length)
+console.log(output_data_point.length)
 /* input_data.cols.forEach((ev,num)=>{
     output_data[index][ev[0]]
     console.log(ev[0])
