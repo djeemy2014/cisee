@@ -12,7 +12,8 @@ const regexpCoordSys=/(?<=(Система координат - ))\S{0,50}/g;
 const regexpType=/(?<=(Тип пространственного объекта - ))\S{0,50}/g;
 //const regexpString=/\d{1,3}.{30,50}([E]|[Е])$/
 const regexpString=/(?<=\n)\d{1,3}.{30,50}(([E](\s){0,8})|([Е](\s){0,8}))/g
-const regexpTable=/((?<=\n)\d{1,3}(\s).{8,12}°.{20,40}(([E](\s){0,10})|([Е](\s){0,10}))){1,100}/g;
+//const regexpTable=/((?<=\n)\d{1,3}(\s).{8,12}°.{20,40}(([E](\s){0,10}\r\n)|([Е](\s){0,10}\r\n))){1,100}/g;
+const regexpTable=/((?<=\n)\d{1,3}(\s).{30,50}(([E](\s){0,15})|([Е](\s){0,15}))){1,100}/g;
 
 let output_data=[]
 let output_data_point=[]
@@ -54,10 +55,10 @@ function createLine(arr){
     arr.forEach((ev, index)=>{
         endList[index]=[]
         let elem=ev.split(/\s{1,}\r\n/)
-        //console.log(elem)
+        console.log(elem)
         elem.forEach((item,num)=>{
             if (item!=''){
-                endList[num]=createPoint([item])[0]
+                endList[index][num]=createPoint([item])[0]
             }
 
             /* let elem=item.split(/\s{1,}/)
@@ -75,21 +76,24 @@ function createLine(arr){
     return endList
 }
 
-//функция создания полигона
+//функция создания полигона!!!!!
 function createPoligon(arr){
     let endList=createLine(arr)
-    if (endList[0][1]==endList[endList.length-1][1]
-        &&
-        endList[0][2]==endList[endList.length-1][2]){
-        console.log('JR')
-    }else{
-        endList.push(endList[0])
-        //console.log (arr)
-    }
+    endList.forEach((ev, index)=>{
+        if (ev[0][1]==ev[endList.length-1][1]
+            &&
+            ev[0][2]==ev[endList.length-1][2]){
+            console.log('JR')
+        }else{
+            ev.push(ev[0])
+            //console.log (arr)
+        }
+    })
+    
     //console.log(endList)
     return endList
 }
-
+//функция для коллекций
 
 
 console.log(Object.keys( input_data))
@@ -205,14 +209,15 @@ console.log(2, output_data_poligon.length)
 console.log(3, output_data_collection.length)
 console.log(4, output_data_NaN.length)
 console.log(5, output_data_tible.length)
-let test_odj=output_data_NaN[0]
+let test_odj=output_data_collection[0]
 let test_list=test_odj['Географические координаты угловых точек участка недр, верхняя и нижняя границы участка недр']
 console.log(test_odj.uid)
 console.log(test_odj)
 console.log(test_list)
+console.log(JSON.stringify(test_list))
 console.log(test_list.match(regexpTable))
 //console.log(createPoint(test_list.match(regexpTable)))
-//console.log(createLine(test_list.match(regexpTable)))
+console.log(createLine(test_list.match(regexpTable)))
 //console.log(createPoligon(test_list.match(regexpTable)))
 
 /* input_data.cols.forEach((ev,num)=>{
