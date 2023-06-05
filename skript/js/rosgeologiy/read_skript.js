@@ -6,6 +6,7 @@ import gdal from 'gdal-async';
 
 //import input_data from './dagestan.json' assert {type: 'json'}; Неработает
 let input_data = JSON.parse( fs.readFileSync('./dagestan.json')).result.data
+const output_point='./test_point.geojson'
 
 //регулярки
 const regexpCoordSys=/(?<=(Система координат - ))\S{0,50}/g;
@@ -55,7 +56,7 @@ function createLine(arr){
     arr.forEach((ev, index)=>{
         endList[index]=[]
         let elem=ev.split(/\s{1,}\r\n/)
-        console.log(elem)
+        //console.log(elem)
         elem.forEach((item,num)=>{
             if (item!=''){
                 endList[index][num]=createPoint([item])[0]
@@ -80,10 +81,9 @@ function createLine(arr){
 function createPoligon(arr){
     let endList=createLine(arr)
     endList.forEach((ev, index)=>{
-        if (ev[0][1]==ev[endList.length-1][1]
+        if (ev[0][1]==ev[ev.length-1][1]
             &&
-            ev[0][2]==ev[endList.length-1][2]){
-            console.log('JR')
+            ev[0][2]==ev[ev.length-1][2]){
         }else{
             ev.push(ev[0])
             //console.log (arr)
@@ -120,33 +120,12 @@ for (let i=0;i<input_data.rows.length;i++){
         odject_data_set.type='null'
         output_data_tible.push(odject_data_set)
     }else{
-        //console.log(regexpCoordSys.lastIndex)
-        //switch()
 
         //тут нужно разбирать и сортировать
 
         let result=selectColon.match(regexpTable)
-        //console.log(i,Array.isArray( result))
-        //console.log(i,result.length)
-        /*if (result.length!=selectColon.match(regexpType).length){
-
-            console.log(selectColon.match(regexpType))
-            console.log(selectColon.match(regexpTable))
-            //console.log(selectColon.match(regexpString))
-            //console.log(result)
-            //console.log(JSON.stringify( selectColon))
-            console.log((selectColon))
-        }
-         if (selectColon.match(regexpType).length>1){
-            //console.log(regexpTable.exec(selectColon))
-           
-            //console.log(i,result.length)
-            console.log(i,Array.isArray( result))
-            //console.log(result)
-        } */
         if ( selectColon.match(regexpType)===null){
             odject_data_set.type='NaN'
-            //odject_data_set.type='collection'
             odject_data_set.crs=selectColon.match(regexpCoordSys)
             odject_data_set.geometyArray=[]
             output_data_NaN.push(odject_data_set)
@@ -162,23 +141,22 @@ for (let i=0;i<input_data.rows.length;i++){
                     case 'Мультиточка':{
                         odject_data_set.type='point'
                         odject_data_set.crs=selectColon.match(regexpCoordSys)
-                        odject_data_set.geometyArray=[]
+                        odject_data_set.geometyArray=createPoint(odject_data_set[input_data.cols[8][0]].match(regexpTable))
                         output_data_point.push(odject_data_set)
                         break
                     };
                     case 'Линия':{
-                        console.log(selectColon.match(regexpType))
-                        console.log(selectColon.match(regexpType)[0])
                         odject_data_set.type='line'
                         odject_data_set.crs=selectColon.match(regexpCoordSys)
-                        odject_data_set.geometyArray=[]
+                        odject_data_set.geometyArray=createLine(odject_data_set[input_data.cols[8][0]].match(regexpTable))
                         output_data_line.push(odject_data_set)
                         break
                     };
                     case 'Полигон':{
                         odject_data_set.type='poligon'
-                        odject_data_set.geometyArray=[]
                         odject_data_set.crs=selectColon.match(regexpCoordSys)
+                        odject_data_set.geometyArray=createPoligon(odject_data_set[input_data.cols[8][0]].match(regexpTable))
+                        
                         output_data_poligon.push(odject_data_set)
                         break
                     };
@@ -189,36 +167,72 @@ for (let i=0;i<input_data.rows.length;i++){
                         output_data_collection.push(odject_data_set)
                     }
                 }
-                //console.log(selectColon.match(regexpType).length)
-            }
-            //console.log(i, selectColon.match(regexpType) )   
+            } 
         }
-        //regexpCoordSys.lastIndex=0
     }
     output_data[i]=odject_data_set
-    //odject_data_set
 
 }
 let maxi=0
 output_data_tible.forEach((ev, index)=>(
     maxi=Math.max(index,maxi)
 ))
+
+const dataset_point = gdal.open(output_point,"w","GeoJSON")
+let create_layers_point=dataset_point.layers.create('point', null, gdal.Point);
+let layer_point = dataset_point.layers.get(0)
+
+
+
+//Тестовые вызовы!
 console.log(0, output_data_point.length)
 console.log(1, output_data_line.length)
 console.log(2, output_data_poligon.length)
 console.log(3, output_data_collection.length)
 console.log(4, output_data_NaN.length)
 console.log(5, output_data_tible.length)
-let test_odj=output_data_collection[0]
+let test_odj=output_data_poligon[0]
 let test_list=test_odj['Географические координаты угловых точек участка недр, верхняя и нижняя границы участка недр']
 console.log(test_odj.uid)
 console.log(test_odj)
 console.log(test_list)
-console.log(JSON.stringify(test_list))
-console.log(test_list.match(regexpTable))
+//test_list.geometyArray.forEach(ev=>{console.log(ev)})
+console.dir(output_data_point[0].geometyArray)
+console.dir(output_data_line[0].geometyArray)
+console.dir(output_data_poligon[0].geometyArray)
+console.log(Object.keys(test_odj))
+Object.keys(test_odj).forEach(ev=>{
+    console.log(ev, typeof test_odj[ev])
+    switch(typeof test_odj[ev]){
+        case 'number' :{
+            layer_point.fields.add(new gdal.FieldDefn(ev,  gdal.OFTInteger))
+            break
+        };
+        case 'string' :{
+            layer_point.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+            break
+        };
+        case 'object' :{
+            layer_point.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+            break
+        };
+        default:{
+
+            layer_point.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+        }
+    }
+})
+
+//console.log(JSON.stringify(test_list))
+//console.log(test_list.match(regexpTable))
 //console.log(createPoint(test_list.match(regexpTable)))
-console.log(createLine(test_list.match(regexpTable)))
+//console.log(createLine(test_list.match(regexpTable)))
 //console.log(createPoligon(test_list.match(regexpTable)))
+
+/* gdal.drivers.forEach(function(drive,i){
+    console.log(drive.description);
+}) */
+
 
 /* input_data.cols.forEach((ev,num)=>{
     output_data[index][ev[0]]
