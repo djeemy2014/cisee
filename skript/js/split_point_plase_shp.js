@@ -5,10 +5,11 @@ import gdal from 'gdal-async'
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_20230512_point.gpkg";
+//const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_point_20230606.gpkg";
+const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\plant_point_20230606.gpkg";
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="plant_20230512_point_new.xlsx";
-const output_newlaer="plant_20230512_point_new"
+const output_xlsx="plant_point_20230608_new.xlsx";
+const output_newlaer="plant_point_20230608_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
@@ -30,6 +31,8 @@ const srs_layer=layer.srs
 //console.log(0,f_geom.x, f_geom.y)
 //console.log(0, JSON.parse( layer.features.first().fields.toJSON()))
 console.log(0, ( layer.features.first().fid))
+console.log(100, ( layer.features.get(1)))
+console.log(100, ( layer.features.get(2)))
 console.log('start work')
 console.timeLog(event1)
 layer.features.forEach((ev, index)=>{
@@ -65,7 +68,8 @@ console.log('start JSON')
 console.timeLog(event1)
 for (let i =miniim; i<=maxim;i++){
     list_line=agrigetObj.filter(ev=>ev['old_numZU']==i)
-    //console.log(i,  list_line.length)
+    console.log(i,  list_line.length)
+    //if (i==128){console.log(i,  agrigetObj)}
     //console.log(i, list_line[0].x, list_line[0].y,list_line[list_line.length-1].x, list_line[list_line.length-1].y)
     if (list_line[0].x==list_line[list_line.length-1].x&&list_line[0].y==list_line[list_line.length-1].y){
         list_line[list_line.length-1].vertex_part_index=0;
@@ -118,7 +122,7 @@ console.log('start writeXLSX')
 console.timeLog(event1)
 const worksheet = XLSX.utils.json_to_sheet(result);
 const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "Red_Line_point_20230510");
+XLSX.utils.book_append_sheet(workbook, worksheet, "plant_point_20230608_new");
 XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
@@ -126,7 +130,7 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 const dataset_new = gdal.open(dir_input+"\\"+output_newlaer,"w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
-const create_layers=dataset_new.layers.create('Red_Line_point_20230510_4_new', srs_layer, gdal.Point);
+const create_layers=dataset_new.layers.create('plant_point_20230608_new', srs_layer, gdal.Point);
 const layer_new = dataset_new.layers.get(0)
 
 //console.dir(Object.getPrototypeOf(layer_new.features), {showHidden: true})

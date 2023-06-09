@@ -201,9 +201,12 @@ console.dir(output_data_point[0].geometyArray)
 console.dir(output_data_line[0].geometyArray)
 console.dir(output_data_poligon[0].geometyArray)
 console.log(Object.keys(test_odj))
-Object.keys(test_odj).forEach(ev=>{
-    console.log(ev, typeof test_odj[ev])
-    switch(typeof test_odj[ev]){
+
+//создание слоя
+//тестовый слой
+Object.keys(output_data_poligon[0]).forEach(ev=>{
+    console.log(ev, typeof output_data_poligon[0][ev])
+    switch(typeof output_data_poligon[0][ev]){
         case 'number' :{
             layer_point.fields.add(new gdal.FieldDefn(ev,  gdal.OFTInteger))
             break
@@ -222,6 +225,9 @@ Object.keys(test_odj).forEach(ev=>{
         }
     }
 })
+output_data_poligon.forEach(ev=>{
+    ev.geometyArray
+})
 
 //console.log(JSON.stringify(test_list))
 //console.log(test_list.match(regexpTable))
@@ -229,9 +235,9 @@ Object.keys(test_odj).forEach(ev=>{
 //console.log(createLine(test_list.match(regexpTable)))
 //console.log(createPoligon(test_list.match(regexpTable)))
 
-/* gdal.drivers.forEach(function(drive,i){
+gdal.drivers.forEach(function(drive,i){
     console.log(drive.description);
-}) */
+})
 
 
 /* input_data.cols.forEach((ev,num)=>{

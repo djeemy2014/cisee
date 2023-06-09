@@ -5,10 +5,10 @@ import gdal from 'gdal-async'
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.gpkg";
-const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="Red_Line_point_20230510_test.xlsx";
-const output_newlaer="Red_Line_point_20230510_test_new"
+const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230606.gpkg";
+//const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
+const output_xlsx="Red_Line_point_20230606_new"+".xlsx";
+const output_newlaer="Red_Line_point_20230606_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
@@ -110,7 +110,7 @@ console.log('start writeXLSX')
 console.timeLog(event1)
 const worksheet = XLSX.utils.json_to_sheet(result);
 const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "Red_Line_point_20230510");
+XLSX.utils.book_append_sheet(workbook, worksheet, "Red_Line_point_20230606_new");
 XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
@@ -118,7 +118,7 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 const dataset_new = gdal.open(dir_input+"\\"+output_newlaer,"w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
-const create_layers=dataset_new.layers.create('Red_Line_point_20230510_4_new', srs_layer, gdal.Point);
+const create_layers=dataset_new.layers.create('Red_Line_point_20230606_new', srs_layer, gdal.Point);
 const layer_new = dataset_new.layers.get(0)
 
 //console.dir(Object.getPrototypeOf(layer_new.features), {showHidden: true})
@@ -136,8 +136,9 @@ layer_new.fields.add(new gdal.FieldDefn('typeGeometry', gdal.OFTString));
 
 //console.log(Object.keys(result[0]))
 console.time('ev')
-let feature = new gdal.Feature(layer_new)
+
 result.forEach((ev, index)=>{
+    let feature = new gdal.Feature(layer_new)
     console.log(`start.${index}`)
     console.time('ev2')
     console.timeLog('ev2')
@@ -148,7 +149,7 @@ result.forEach((ev, index)=>{
     feature.fields.set('x', ev.x);
     feature.fields.set('y', ev.y);
     feature.fields.set('typeGeometry', ev.typeGeometry);
-    console.log(`point1.${index}`)
+    console.log(`point1. ${index} ${ev.fid}`)
     console.timeLog('ev2')
     feature.setGeometry(new gdal.Point(ev.x, ev.y));
     console.log(`point2.${index}`)
@@ -156,8 +157,9 @@ result.forEach((ev, index)=>{
     console.log(`end.${index}`)
     console.timeLog('ev2')
     console.timeEnd('ev2')
+    layer_new.features.add(feature);
 })
-layer_new.features.add(feature);
+
 console.log('end')
 console.timeLog(event1)
 //gdal.drivers.forEach(function(drive,i){
