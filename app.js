@@ -33,7 +33,7 @@ const options = {
 }
 
 function updatebd() {
-  var urs = 'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/cesium_test/geodata/geojson/test_point_4326.geojson' //ссылка на файл для перезаписи
+  var urs = './skript/cesium_test/geodata/geojson/test_point_4326.geojson' //ссылка на файл для перезаписи
       //запрос
   var sql = 'SELECT json_build_object(\'type\', \'FeatureCollection\', \'name\',\'test_point_4326\', \'crs\', json_build_object( \'type\', \'name\',  \'properties\', json_build_object( \'name\', \'urn:ogc:def:crs:OGC:1.3:CRS84\' ) ), \'features\', json_agg(ST_AsGeoJSON(public."test_point_4326".*)::json))from public."test_point_4326";'
 
