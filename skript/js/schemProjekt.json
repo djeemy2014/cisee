@@ -1,75 +1,221 @@
 [
     {
+        "directories": "06_Изыскания",
+        "description": "Основной католог ИЗЫСКАНИЙ",
+        "substructs": [
+            {
+                "directories": "00_temp",
+                "description": "временные данные",
+                "substructs": null
+            },
+            {
+                "directories": "01_Договора",
+                "description": "Договора",
+                "substructs": null
+            },
+            {
+                "directories": "02_Технические задания",
+                "description": "Технические задания",
+                "substructs": null
+            },
+            {
+                "directories": "03_Сметы",
+                "description": "Сметы",
+                "substructs": null
+            },
+            {
+                "directories": "04_Программы работ",
+                "description": "Программы работ",
+                "substructs": null
+            },
+            {
+                "directories": "04_Акты приема",
+                "description": "Акты приема",
+                "substructs": null
+            },
+            {
+                "directories": "06_Отчеты",
+                "description": "Отчеты по изысканиям",
+                "substructs": null
+            }
+        ]
+    },
+    {
         "directories": "09_GeoData",
-        "description": "Основной католог",
+        "description": "Основной католог Геоданных",
         "substructs": [
 
-        {
-            "directories": "0_tmp",
-            "description": "Временные данные",
-            "substructs": null
-        },
-        {
-            "directories": "1_doc",
-            "description": "Документы необходимые для проекта",
-            "substructs": null
-        },
-        {
-            "directories": "2_tabl",
-            "description": "Таблицы проекта",
-            "substructs": null
-        },
-        {
-            "directories": "3_vector",
-            "description": "Векторные данные проекта",
-            "substructs": [
-                {
-                    "directories": "KPT",
-                    "description": "Векторные данные KPT",
-                    "substructs": null
-                },
-                {
-                    "directories": "tmp",
-                    "description": "Временные данные",
-                    "substructs": null
-                },
-                {
-                    "directories": "OSM",
-                    "description": "Векторные данные OSM",
-                    "substructs": null
-                }
+            {
+                "directories": "0_tmp",
+                "description": "Временные данные",
+                "substructs": null
+            },
+            {
+                "directories": "1_doc",
+                "description": "Документы необходимые для проекта и вкторных данных",
+                "substructs": null
+            },
+            {
+                "directories": "2_tabl",
+                "description": "Таблицы проекта",
+                "substructs": null
+            },
+            {
+                "directories": "3_vector",
+                "description": "Векторные данные проекта",
+                "substructs": [
+                    {
+                        "directories": "work",
+                        "description": "рабочие слои",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "input",
+                        "description": "входные данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "output",
+                        "description": "выходные данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "KPT",
+                        "description": "Векторные данные KPT",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "0_tmp",
+                        "description": "Временные данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "OSM",
+                        "description": "Векторные данные OSM",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "1_topo",
+                        "description": "Векторные данные topo",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "2_geolog",
+                        "description": "Векторные данные geolog",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "3_gidro",
+                        "description": "Векторные данные gidro",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "4_eco",
+                        "description": "Векторные данные eco",
+                        "substructs": null
+                    }
                 ]
-        },
-        {
-            "directories": "4_dxf",
-            "description": "Векторные в формате DXF ",
-            "substructs": null
-        },
-        {
-            "directories": "5_rastr",
-            "description": "Растровые данные необходимые для проекта",
-            "substructs": null
-        },
-        {
+            },
+            {
+                "directories": "4_dxf",
+                "description": "Векторные в формате DXF ",
+                "substructs": [
+                    {
+                        "directories": "work",
+                        "description": "рабочие слои",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "input",
+                        "description": "входные данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "output",
+                        "description": "выходные данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "topo",
+                        "description": "Векторные данные topo",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "geolog",
+                        "description": "Векторные данные geolog",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "gidro",
+                        "description": "Векторные данные gidro",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "eco",
+                        "description": "Векторные данные eco",
+                        "substructs": null
+                    }
+                ]
 
-            "directories": "6_dem",
-            "description": "Рельеф необходимый для проекта",
-            "substructs": null
-        },
-        {
-            "directories": "7_map",
-            "description": "Экспортируемые карты проекта",
-            "substructs": null
-        },
-        {
-            "directories": "8_style",
-            "description": "Стили проекта",
-            "substructs": null
-        },
-        {
-            "directories": "9_CRS",
-            "description": "Система координат проекта",
-            "substructs": null
-        }
+            },
+            {
+                "directories": "5_rastr",
+                "description": "Растровые данные необходимые для проекта",
+                "substructs": [
+                    {
+                        "directories": "open_data",
+                        "description": "Открытые данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "satelet",
+                        "description": "спутниковые данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "orto",
+                        "description": "ortophoto",
+                        "substructs": null
+                    }
+                ]
+            },
+            {
+
+                "directories": "6_dem",
+                "description": "Рельеф необходимый для проекта",
+                "substructs": [
+                    {
+                        "directories": "open_data",
+                        "description": "Открытые данные",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "topo",
+                        "description": "Векторные данные topo",
+                        "substructs": null
+                    }
+                ]
+            },
+            {
+                "directories": "7_map",
+                "description": "Экспортируемые карты проекта",
+                "substructs": null
+            },
+            {
+                "directories": "8_style",
+                "description": "Стили проекта",
+                "substructs": null
+            },
+            {
+                "directories": "9_CRS",
+                "description": "Система координат проекта",
+                "substructs": null
+            },
+            {
+                "directories": "10_DB",
+                "description": "Базы данных",
+                "substructs": null
+            }
         ]    
-    }]
+    }
+]

@@ -6,13 +6,14 @@ let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
 //const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_point_20230606.gpkg";
-const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\plant_point_20230606.gpkg";
+const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230620\\plant_20230620_0.gpkg"; 
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="plant_point_20230608_new.xlsx";
-const output_newlaer="plant_point_20230608_new"
+const output_xlsx="plant_20230620_new.xlsx";
+const output_newlaer="plant_20230620_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
+let errorpoligon=0
 let j=1;
 let q=0;
 let maxim=0, miniim=10;
@@ -31,8 +32,8 @@ const srs_layer=layer.srs
 //console.log(0,f_geom.x, f_geom.y)
 //console.log(0, JSON.parse( layer.features.first().fields.toJSON()))
 console.log(0, ( layer.features.first().fid))
-console.log(100, ( layer.features.get(1)))
-console.log(100, ( layer.features.get(2)))
+//console.log(100, ( layer.features.get(1)))
+//console.log(100, ( layer.features.get(2)))
 console.log('start work')
 console.timeLog(event1)
 layer.features.forEach((ev, index)=>{
@@ -74,17 +75,31 @@ for (let i =miniim; i<=maxim;i++){
     if (list_line[0].x==list_line[list_line.length-1].x&&list_line[0].y==list_line[list_line.length-1].y){
         list_line[list_line.length-1].vertex_part_index=0;
         list_line.forEach((ev, index)=>{
-            //console.log(ev)
+            if (index-1<0){
+                let d_y=((0.35*0.1)**2)*((list_line[index+1].y-list_line[list_line.length-1].y)**2)
+                let d_x=((0.35*0.1)**2)*((list_line[index+1].x-list_line[list_line.length-1].x)**2)
+                errorpoligon+=(d_y+d_x)
+            }else if(index+1>list_line.length-1){
+                let d_y=((0.35*0.1)**2)*((list_line[0].y-list_line[index-1].y)**2)
+                let d_x=((0.35*0.1)**2)*((list_line[0].x-list_line[index-1].x)**2)
+                errorpoligon+=(d_y+d_x)
+            }else{
+                let d_y=((0.35*0.1)**2)*((list_line[index+1].y-list_line[index-1].y)**2)
+                let d_x=((0.35*0.1)**2)*((list_line[index+1].x-list_line[index-1].x)**2)
+                errorpoligon+=(d_y+d_x)
+            }
             result[q]={
                 nid: ev.fid,
                 "Номер точки": ev.vertex_part_index+j,
                 "Номер контура": ev.old_numZU,
-                "Номер точки в контуре": ev.vertex_part_index,
+                "Номер точки в контуре": ev.vertex_part_index+1,
                 x: ev.x,
                 y: ev.y,
-                typeGeometry:'G'
+                typeGeometry:'G',
+                error_point: 0.1
             } 
             q++
+
         })
 
         j+=list_line.length-1
@@ -99,7 +114,8 @@ for (let i =miniim; i<=maxim;i++){
                 "Номер точки в контуре": ev.vertex_part_index,
                 x: ev.x,
                 y: ev.y,
-                typeGeometry:'L'
+                typeGeometry:'L',
+                error_point: 0.1
             }
             q++
         })
@@ -122,7 +138,7 @@ console.log('start writeXLSX')
 console.timeLog(event1)
 const worksheet = XLSX.utils.json_to_sheet(result);
 const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "plant_point_20230608_new");
+XLSX.utils.book_append_sheet(workbook, worksheet, "plant_20230620_new");
 XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
@@ -130,12 +146,13 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 const dataset_new = gdal.open(dir_input+"\\"+output_newlaer,"w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
-const create_layers=dataset_new.layers.create('plant_point_20230608_new', srs_layer, gdal.Point);
+const create_layers=dataset_new.layers.create('plant_20230620_new', srs_layer, gdal.Point);
 const layer_new = dataset_new.layers.get(0)
 
 //console.dir(Object.getPrototypeOf(layer_new.features), {showHidden: true})
 //console.dir(layer_new.features)
 //console.dir(layer_new.fields)
+console.dir(Math.sqrt( errorpoligon))
 console.log('start createLayers')
 console.timeLog(event1)
 layer_new.fields.add(new gdal.FieldDefn('ID', gdal.OFTInteger));
