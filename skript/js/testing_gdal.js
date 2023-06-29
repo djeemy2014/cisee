@@ -4,12 +4,12 @@ import fs from 'fs'
 import path from 'path'
 import gdal from 'gdal-async'
 
-const input_filegeometry = "C:\\Users\\ddemidyuk\\Documents\\WORK\\Lipeck\\20230313 Материалы для оценки\\SHP\\FunctionalZone.shp";
+const input_filegeometry = "./test_vector/test.shp";
 const output_newlaer="FunctionalZone_JSON"
 const dir_input=path.dirname(input_filegeometry)
-console.log(dir_input)
-console.log(path.basename(input_filegeometry))
-const dataset = gdal.open(dir_input+"\\"+path.basename(input_filegeometry))
+console.log(0, dir_input)
+console.log(1, path.basename(input_filegeometry))
+const dataset = gdal.open(dir_input+"/"+path.basename(input_filegeometry))
 const layer = dataset.layers.get(0)
 const srs_layer=layer.srs
 
@@ -25,6 +25,7 @@ let feature = layer.features
 console.dir(layer.features.first().getGeometry())
 console.log(layer.fields.getNames())
 console.dir(layer.features.first().fields)
+console.dir(srs_layer)
 
 
 layer.features.forEach((ev, index)=>{
