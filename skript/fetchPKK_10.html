@@ -127,18 +127,31 @@ await fetch(url,
     )
     .then((resp) => {
         console.log(resp.status)
+        console.log(resp)
         if (resp.status==200){
         //console.log(console.log(resp))
         resp.json().then(json => {
             console.log(`Элемент ${inputListing[i]} обработан`)
             document.querySelector('#status').innerHTML=`Элемент ${inputListing[i]} обработан, ${resp.status}, ${new Date()}, ${i,k,j}`
-            outputData[i-k]=[]
-            outputData[i-k][0]=json.feature.attrs.id
-            outputData[i-k][1]=json.feature.attrs.acnum
-            outputData[i-k][2]=json.feature.attrs.name_zone
-            let table = document.querySelector('tbody')
-            table.innerHTML+=`<tr><td>${json.feature.attrs.id}</td><td>${json.feature.attrs.acnum}</td><td>${json.feature.attrs.name_zone}</td></tr>`
-            i++
+            
+            if (json.feature==null||json==null){
+                listError.push(inputListing[i])
+                console.log(listError)
+                i++
+                k++
+                console.log(`ОЙ, Error, запускаю следующий ${inputListing[i]} через минуту", ${new Date()}, ${i,k,j}`)
+                //console.log("ОЙ, Error, запускаю снова", inputListing[i])
+                setTimeout(()=>{fetching (i,k)},timeout*1000)
+            }else{
+                outputData[i-k]=[]
+                outputData[i-k][0]=json.feature.attrs.id
+                outputData[i-k][1]=json.feature.attrs.acnum
+                outputData[i-k][2]=json.feature.attrs.name_zone
+                let table = document.querySelector('tbody')
+                table.innerHTML+=`<tr><td>${outputData[i-k][0]}</td><td>${outputData[i-k][1]}</td><td>${outputData[i-k][2]}</td></tr>`
+                i++
+            }
+            
             if (i>=inputListing.length){
                 console.log('Закончил');
                 fuction3()
