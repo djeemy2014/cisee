@@ -122,7 +122,11 @@ app.get('/',function(req,res) {
   console.dir(req.ip)
 });
 app.get('/skript/fetchPKK_1/',function(req,res) {
-  res.sendFile('./skript/fetchPKK_1.html',optionsPath);
+  res.sendFile(`./skript/fetchPKK_1.html`,optionsPath);
+  console.dir(req.ip)
+})
+app.get('/skript/fetchPKK_10/',function(req,res) {
+  res.sendFile(`./skript/fetchPKK_10.html`,optionsPath);
   console.dir(req.ip)
 })
 app.get('./skript/cesium_test/Test_1.html',function(req,res) {
