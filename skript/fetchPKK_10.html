@@ -141,7 +141,7 @@ await fetch(url,
                 k++
                 console.log(`ОЙ, Error, запускаю следующий ${inputListing[i]} через минуту", ${new Date()}, ${i,k,j}`)
                 //console.log("ОЙ, Error, запускаю снова", inputListing[i])
-                setTimeout(()=>{fetching (i,k)},timeout*1000)
+                //setTimeout(()=>{fetching (i,k)},timeout*1000)
             }else{
                 outputData[i-k]=[]
                 outputData[i-k][0]=json.feature.attrs.id
