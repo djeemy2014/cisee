@@ -32,7 +32,7 @@ function startup(Cesium) {
         timeline: false,
         animation: false,
         homeButton: false,
-        terrainProvider: ellipsoidProvider,
+        terrainProvider: terrainProviderArcGis,
         imageryProvider: openstreetmapimagery,
 
     };

@@ -5,6 +5,7 @@ import pg from 'pg';
 
 import path from 'path';
 import {fileURLToPath} from 'url';
+import { send } from 'process';
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -73,6 +74,11 @@ function updatebd() {
   })
 }
 
+function loger(req,res){
+  let data = new Date()
+  let log={href: req.url, ipv6: req.ip, date: data , date_strint:`${data}`}
+  return console.dir(log)
+}
 
 
 
@@ -105,33 +111,48 @@ app.get('/ab?cd', function(req, res) {
   res.send('ab?cd');
 });
 //app.set('view engine', 'pug');
+app.use(function(req,res,next){
+  const regexp_1=/cesium_test\/Test/
+  if (regexp_1.test(req.url)){
+    loger(req);
+  }
+  next()
+})
 app.use(express.static(__dirname + '/public'));
 app.use('/module',express.static(__dirname + '/node_modules/cesium/Build/Cesium'));
-app.use('/cesium_test',express.static(__dirname + '/skript/cesium_test'));
+app.use('/cesium_test', [
+  express.static(__dirname + '/skript/cesium_test'),
+  ()=>{console.log('2Ghbdtn')},
+]
+);
+//app.use(console.log(0))
 /* app.get('(\\S)*',function(req,res){
-  console.dir(req.ip)
+  loger(req,res)
 } ) */
 
 //сюда пишеться метод ля вставки head в любую странийцу
 //app.head('/head/',function(req,res) {
 //  res.sendFile('/head.html',optionsPath);
-//  console.dir(req.ip)
+//  loger(req,res)
 //});
 app.get('/',function(req,res) {
   res.sendFile('./index.html',optionsPath);
-  console.dir(req.ip)
+  console.log('/', req.ip,  new Date())
+  loger(req,res)
+  //console.log(req)
 });
 app.get('/skript/fetchPKK_1/',function(req,res) {
   res.sendFile(`./skript/fetchPKK_1.html`,optionsPath);
-  console.dir(req.ip)
+  loger(req,res)
 })
 app.get('/skript/fetchPKK_10/',function(req,res) {
   res.sendFile(`./skript/fetchPKK_10.html`,optionsPath);
-  console.dir(req.ip)
+  loger(req,res)
 })
-app.get('./skript/cesium_test/Test_1.html',function(req,res) {
-  res.sendFile('./skript/cesium_test/Test_1.html',optionsPath);
-  console.dir(req.ip)
+// Нужно сохранять позицию и посылать ее вместе с запросом, затем прехватывать ее и фиксировать (Lon,Lat,H)
+app.get('./cesium_test/Test_1.html',function(req,res) {
+  res.sendFile('./cesium_test/Test_1.html',optionsPath);
+  loger(req,res)
 })
 app.get('/creaet_project',function(req,res){
   res.sendFile('skript\\js\\creaet_project.js',optionsPath)
