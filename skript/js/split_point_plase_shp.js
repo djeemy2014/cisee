@@ -6,10 +6,10 @@ let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
 //const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_point_20230606.gpkg";
-const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Точки Района работ.gpkg"; 
+const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Вершины учатков.gpkg"; 
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="plant_20230620_new.xlsx";
-const output_newlaer="plant_20230620_new"
+const output_xlsx="Вершины учатков_new.xlsx";
+const output_newlaer="Вершины учатков_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
@@ -138,7 +138,7 @@ console.log('start writeXLSX')
 console.timeLog(event1)
 const worksheet = XLSX.utils.json_to_sheet(result);
 const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "plant_20230620_new");
+XLSX.utils.book_append_sheet(workbook, worksheet, "Вершины учатков_new");
 XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
@@ -146,7 +146,7 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 const dataset_new = gdal.open(dir_input+"\\"+output_newlaer,"w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
-const create_layers=dataset_new.layers.create('plant_20230620_new', srs_layer, gdal.Point);
+const create_layers=dataset_new.layers.create('Вершины учатков_new', srs_layer, gdal.Point);
 const layer_new = dataset_new.layers.get(0)
 
 //console.dir(Object.getPrototypeOf(layer_new.features), {showHidden: true})
