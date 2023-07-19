@@ -5,19 +5,19 @@ import gdal from 'gdal-async'
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230606.gpkg";
+const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Красные линии точки_20230713.gpkg";
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="Red_Line_point_20230606_new"+".xlsx";
-const output_newlaer="Red_Line_point_20230606_new"
+const output_xlsx="Красные линии_new"+".xlsx";
+const output_newlaer="Красные линии_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
 let j=1;
 let q=0;
-let maxim=0, miniim=10;
+let maxim=0, miniim=3;
 const dir_input=path.dirname(input_filegeometry)
 console.log(dir_input)
-console.log(path.basename(input_filegeometry))
+//console.log(path.basename(input_filegeometry))
 const dataset = gdal.open(dir_input+"\\"+path.basename(input_filegeometry))
 //console.log(1,dataset)
 const layer = dataset.layers.get(0)
@@ -39,6 +39,7 @@ layer.features.forEach((ev, index)=>{
     miniim=Math.min(miniim,agrigetObj[index].vertex_part)
 })
 //console.log(agrigetObj)
+console.log(maxim, miniim)
 //console.log(JSON.stringify(layer.features))
 //console.log("fields: " + layer.fields.getNames())
 //console.log("srs: " + (layer.srs ? layer.srs.toWKT() : 'null'))
@@ -106,11 +107,11 @@ for (let i =miniim; i<=maxim;i++){
 
 //dataset.close()
 //запись в XLSX
-console.log('start writeXLSX')
+//console.log('start writeXLSX')
 console.timeLog(event1)
 const worksheet = XLSX.utils.json_to_sheet(result);
 const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "Red_Line_point_20230606_new");
+XLSX.utils.book_append_sheet(workbook, worksheet, "Красные линии_new");
 XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
@@ -118,14 +119,14 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 const dataset_new = gdal.open(dir_input+"\\"+output_newlaer,"w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
-const create_layers=dataset_new.layers.create('Red_Line_point_20230606_new', srs_layer, gdal.Point);
+const create_layers=dataset_new.layers.create('Красные линии_new', srs_layer, gdal.Point);
 const layer_new = dataset_new.layers.get(0)
 
 //console.dir(Object.getPrototypeOf(layer_new.features), {showHidden: true})
 //console.dir(layer_new.features)
 //console.dir(layer_new.fields)
-console.log('start createLayers')
-console.timeLog(event1)
+//console.log('start createLayers')
+//console.timeLog(event1)
 layer_new.fields.add(new gdal.FieldDefn('ID', gdal.OFTInteger));
 layer_new.fields.add(new gdal.FieldDefn('Номер точки', gdal.OFTInteger));
 layer_new.fields.add(new gdal.FieldDefn('Номер контура', gdal.OFTInteger));
@@ -139,9 +140,9 @@ console.time('ev')
 
 result.forEach((ev, index)=>{
     let feature = new gdal.Feature(layer_new)
-    console.log(`start.${index}`)
-    console.time('ev2')
-    console.timeLog('ev2')
+    //console.log(`start.${index}`)
+    //console.time('ev2')
+    //console.timeLog('ev2')
     feature.fields.set('ID', ev.fid);
     feature.fields.set('Номер точки', ev['Номер точки']);
     feature.fields.set('Номер контура', ev['Номер контура']);
@@ -149,19 +150,19 @@ result.forEach((ev, index)=>{
     feature.fields.set('x', ev.x);
     feature.fields.set('y', ev.y);
     feature.fields.set('typeGeometry', ev.typeGeometry);
-    console.log(`point1. ${index} ${ev.fid}`)
-    console.timeLog('ev2')
+    //console.log(`point1. ${index} ${ev.fid}`)
+    //console.timeLog('ev2')
     feature.setGeometry(new gdal.Point(ev.x, ev.y));
-    console.log(`point2.${index}`)
-    console.timeLog('ev2')
-    console.log(`end.${index}`)
-    console.timeLog('ev2')
-    console.timeEnd('ev2')
+    //console.log(`point2.${index}`)
+    //console.timeLog('ev2')
+    //console.log(`end.${index}`)
+    //console.timeLog('ev2')
+    //console.timeEnd('ev2')
     layer_new.features.add(feature);
 })
 
 console.log('end')
-console.timeLog(event1)
+//console.timeLog(event1)
 //gdal.drivers.forEach(function(drive,i){
 //    console.log(drive.description);
 //})
