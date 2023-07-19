@@ -20,7 +20,7 @@ console.log('directory-name 👉️', __dirname);
 
 
 const app=express()
-const host='10.0.5.190'
+const host='10.0.1.56'
 const hostname = 'localhost' //'10.0.5.190'//'djeemy.testserver.com'
 const port= 18077
 console.log(app.listen)
