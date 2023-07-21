@@ -5,7 +5,7 @@ import gdal from 'gdal-async'
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Красные линии точки_20230713.gpkg";
+const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Красные линии точки_20230720.gpkg";
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
 const output_xlsx="Красные линии_new"+".xlsx";
 const output_newlaer="Красные линии_new"
@@ -116,7 +116,7 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
 //gdal.Driver.create(dir_input+"\\"+output_newlaer)
-const dataset_new = gdal.open(dir_input+"\\"+output_newlaer,"w","GPKG")
+const dataset_new = gdal.open(dir_input+"\\"+output_newlaer+".gpkg","w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
 const create_layers=dataset_new.layers.create('Красные линии_new', srs_layer, gdal.Point);

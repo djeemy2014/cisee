@@ -51,7 +51,7 @@ list_2_filt.forEach((evl1,index)=>{
             itim2['Наименование объектов капитального строительства']=evl1['Наименование объектов капитального строительства']
         }
     }) */
-    evl1['__EMPTY']=list_ZU.toString().replace(',', '; ')
+    evl1['__EMPTY']=list_ZU.toString().replace(/,/g, '; ')
     evl1['Контроль площади (служебная)']=area
     evl1['Сколько участков']=list_ZU.length
 

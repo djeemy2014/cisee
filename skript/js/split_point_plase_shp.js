@@ -6,7 +6,7 @@ let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
 //const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_point_20230606.gpkg";
-const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Вершины учатков.gpkg"; 
+const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\вершины участков_20230721.gpkg"; 
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
 const output_xlsx="Вершины учатков_new.xlsx";
 const output_newlaer="Вершины учатков_new"
@@ -42,9 +42,9 @@ layer.features.forEach((ev, index)=>{
     agrigetObj[index].fid=ev.fid
     agrigetObj[index].x= Math.round (ev.getGeometry().x*100)/100
     agrigetObj[index].y= Math.round (ev.getGeometry().y*100)/100
-    //console.log(agrigetObj[index].old_numZU)
-    maxim=Math.max(maxim,agrigetObj[index].old_numZU)
-    miniim=Math.min(miniim,agrigetObj[index].old_numZU)
+    //console.log(agrigetObj[index].numb_zu)
+    maxim=Math.max(maxim,agrigetObj[index].numb_zu)
+    miniim=Math.min(miniim,agrigetObj[index].numb_zu)
 })
 console.log(agrigetObj.length)
 console.log(maxim)
@@ -68,7 +68,7 @@ const line_vertex_par = list.reduce((x, y) => Math.max(x, y))
 console.log('start JSON')
 console.timeLog(event1)
 for (let i =miniim; i<=maxim;i++){
-    list_line=agrigetObj.filter(ev=>ev['old_numZU']==i)
+    list_line=agrigetObj.filter(ev=>ev['numb_zu']==i)
     console.log(i,  list_line.length)
     //if (i==128){console.log(i,  agrigetObj)}
     //console.log(i, list_line[0].x, list_line[0].y,list_line[list_line.length-1].x, list_line[list_line.length-1].y)
@@ -91,7 +91,7 @@ for (let i =miniim; i<=maxim;i++){
             result[q]={
                 nid: ev.fid,
                 "Номер точки": ev.vertex_part_index+j,
-                "Номер контура": ev.old_numZU,
+                "Номер контура": ev.numb_zu,
                 "Номер точки в контуре": ev.vertex_part_index+1,
                 x: ev.x,
                 y: ev.y,
@@ -108,7 +108,7 @@ for (let i =miniim; i<=maxim;i++){
         list_line.forEach((ev, index)=>{
             //console.log(ev)
             result[q]={
-                nid: ev.old_numZU,
+                nid: ev.numb_zu,
                 "Номер точки": ev.vertex_part_index+j,
                 "Номер контура": ev.vertex_index,
                 "Номер точки в контуре": ev.vertex_part_index,
@@ -143,7 +143,7 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
 //gdal.Driver.create(dir_input+"\\"+output_newlaer)
-const dataset_new = gdal.open(dir_input+"\\"+output_newlaer,"w","GPKG")
+const dataset_new = gdal.open(dir_input+"\\"+output_newlaer+".gpkg","w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
 const create_layers=dataset_new.layers.create('Вершины учатков_new', srs_layer, gdal.Point);
