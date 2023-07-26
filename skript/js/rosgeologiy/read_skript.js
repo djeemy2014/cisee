@@ -6,7 +6,12 @@ import gdal from 'gdal-async';
 
 //import input_data from './dagestan.json' assert {type: 'json'}; Неработает
 let input_data = JSON.parse( fs.readFileSync('./dagestan.json')).result.data
-const output_point='./test_point2.geojson'
+const output_point='./output_point.geojson'
+const output_line='./output_line.geojson'
+const output_poligon='./output_poligon.geojson'
+const output_collection='./output_collection.geojson'
+const output_NaN='./output_NaN.geojson'
+const output_tible='./output_tible.geojson'
 
 //регулярки
 const regexpCoordSys=/(?<=(Система координат - ))\S{0,50}/g;
@@ -178,24 +183,21 @@ output_data_tible.forEach((ev, index)=>(
     maxi=Math.max(index,maxi)
 ))
 
-const dataset_point = gdal.open(output_point,"w","GeoJSON")
-
-dataset_point.layers.create('point', null, gdal.Point);
-let layer_point = dataset_point.layers.get(0)
 
 
 
 //Тестовые вызовы!
-console.log(0, output_data_point.length)
-console.log(1, output_data_line.length)
-console.log(2, output_data_poligon.length)
-console.log(3, output_data_collection.length)
-console.log(4, output_data_NaN.length)
-console.log(5, output_data_tible.length)
-let test_odj=output_data_poligon[0]
+console.log('point', output_data_point.length)
+console.log('line', output_data_line.length)
+console.log('poligon', output_data_poligon.length)
+console.log('collection', output_data_collection.length)
+console.log('NaN', output_data_NaN.length)
+console.log('tible', output_data_tible.length)
+let test_odj=output_data_line[0]
 let test_list=test_odj['Географические координаты угловых точек участка недр, верхняя и нижняя границы участка недр']
 console.log(test_odj.uid)
 console.log(test_odj)
+console.log(test_odj.geometyArray)
 console.log(test_list)
 //test_list.geometyArray.forEach(ev=>{console.log(ev)})
 console.dir(output_data_point[0].geometyArray)
@@ -206,9 +208,14 @@ console.dir(output_data_poligon[0].geometyArray)
 
 //создание слоя
 //тестовый слой
-function writeFileGEO(input_list){
+function writeFileGEOPiont(input_list){
+const dataset_point = gdal.open(output_point,"w","GeoJSON")
+
+dataset_point.layers.create('point', null, gdal.Point);
+let layer_point = dataset_point.layers.get(0)
+
 Object.keys(input_list[0]).forEach(ev=>{
-    console.log(ev, typeof input_list[0][ev])
+    //console.log(ev, typeof input_list[0][ev])
     switch(typeof input_list[0][ev]){
         case 'number' :{
             layer_point.fields.add(new gdal.FieldDefn(ev,  gdal.OFTInteger))
@@ -251,7 +258,7 @@ input_list.forEach(ev=>{
                     feature.fields.set(key, null)
                     break
                 }
-                console.log(1, key, ev[key])
+                //console.log(1, key, ev[key])
                 feature.fields.set(key, ev[key].toString())
                 break
             };
@@ -268,7 +275,75 @@ input_list.forEach(ev=>{
 })
 }
 
-writeFileGEO(output_data_point)
+writeFileGEOPiont(output_data_point)
+
+//функция для линий
+function writeFileGEOLine(input_list){
+    const datasett = gdal.open(output_line,"w","GeoJSON")
+
+    dataset.layers.create('line', null, gdal.Point);
+    let layer = dataset.layers.get(0)
+
+    Object.keys(input_list[0]).forEach(ev=>{
+        //console.log(ev, typeof input_list[0][ev])
+        switch(typeof input_list[0][ev]){
+            case 'number' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTInteger))
+                break
+            };
+            case 'string' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+                break
+            };
+            case 'object' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+                break
+            };
+            default:{
+    
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+            }
+        }
+    })
+    input_list.forEach(ev=>{
+        ev.geometyArray
+        //console.log(ev.geometyArray)
+        let x = ev.geometyArray[0][1]
+        let y = ev.geometyArray[0][2]
+        let feature = new gdal.Feature(layer)
+        Object.keys(ev).forEach(key=>{
+            //console.log(ev[key])
+            //console.log(key)
+            switch(typeof ev[key]){
+                case 'number' :{
+                    feature.fields.set(key, ev[key])
+                    break
+                };
+                case 'string' :{
+                    feature.fields.set(key, ev[key])
+                    break
+                };
+                case 'object' :{
+                    if (ev[key]== null){
+                        feature.fields.set(key, null)
+                        break
+                    }
+                    //console.log(1, key, ev[key])
+                    feature.fields.set(key, ev[key].toString())
+                    break
+                };
+                default:{
+                    feature.fields.set(key, ev[key])
+                }
+            }
+            
+        })
+        
+        feature.setGeometry(new gdal.Point(x, y));
+        layer.features.add(feature);
+    
+    })
+    }
 //console.log(JSON.stringify(test_list))
 //console.log(test_list.match(regexpTable))
 //console.log(createPoint(test_list.match(regexpTable)))
