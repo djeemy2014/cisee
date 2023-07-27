@@ -37,6 +37,11 @@
                 "directories": "06_Отчеты",
                 "description": "Отчеты по изысканиям",
                 "substructs": null
+            },
+            {
+                "directories": "07_Итоговые сметы",
+                "description": "Итоговые сметы",
+                "substructs": null
             }
         ]
     },
