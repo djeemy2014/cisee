@@ -275,7 +275,7 @@ input_list.forEach(ev=>{
 })
 }
 
-writeFileGEOPiont(output_data_point)
+
 
 //функция для линий
 function writeFileGEOLine(input_list){
@@ -344,6 +344,12 @@ function writeFileGEOLine(input_list){
     
     })
     }
+
+
+
+
+writeFileGEOPiont(output_data_point)
+writeFileGEOLine(output_data_line)
 //console.log(JSON.stringify(test_list))
 //console.log(test_list.match(regexpTable))
 //console.log(createPoint(test_list.match(regexpTable)))
