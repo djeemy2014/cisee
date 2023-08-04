@@ -139,7 +139,7 @@ for (let i=0;i<input_data.rows.length;i++){
             if (selectColon.match(regexpType).length>1){
                 odject_data_set.type='collection'
                 odject_data_set.crs=selectColon.match(regexpCoordSys)
-                odject_data_set.geometyArray=[]
+                odject_data_set.geometyArray=createLine(odject_data_set[input_data.cols[8][0]].match(regexpTable))
                 output_data_collection.push(odject_data_set)
             }else{
                 switch(selectColon.match(regexpType)[0]){
@@ -167,7 +167,8 @@ for (let i=0;i<input_data.rows.length;i++){
                     };
                     default:{
                         odject_data_set.type='collection'
-                        odject_data_set.geometyArray=[]
+                        
+                        odject_data_set.geometyArray=createLine(odject_data_set[input_data.cols[8][0]].match(regexpTable))
                         odject_data_set.crs=selectColon.match(regexpCoordSys)
                         output_data_collection.push(odject_data_set)
                     }
@@ -193,16 +194,21 @@ console.log('poligon', output_data_poligon.length)
 console.log('collection', output_data_collection.length)
 console.log('NaN', output_data_NaN.length)
 console.log('tible', output_data_tible.length)
-let test_odj=output_data_line[0]
+let test_odj=output_data_poligon[194]
 let test_list=test_odj['Географические координаты угловых точек участка недр, верхняя и нижняя границы участка недр']
 console.log(test_odj.uid)
-console.log(test_odj)
+//console.log(test_odj)
 console.log(test_odj.geometyArray)
 console.log(test_list)
 //test_list.geometyArray.forEach(ev=>{console.log(ev)})
-console.dir(output_data_point[0].geometyArray)
-console.dir(output_data_line[0].geometyArray)
-console.dir(output_data_poligon[0].geometyArray)
+//console.dir(output_data_point[0].geometyArray)
+//console.dir(output_data_line[0].geometyArray)
+console.dir(output_data_poligon[194].geometyArray)
+output_data_poligon.forEach((ev,insdex)=>{
+    if (ev.geometyArray.length>1){
+        //console.log(insdex, ev.geometyArray.length)
+    }
+})
 //Вывод ключей объектов
 //console.log(Object.keys(test_odj))
 
@@ -278,10 +284,10 @@ input_list.forEach(ev=>{
 
 
 //функция для линий
-function writeFileGEOLine(input_list){
-    const datasett = gdal.open(output_line,"w","GeoJSON")
+function writeFileGEOLine(input_list,output_file){
+    const dataset = gdal.open(output_file,"w","GeoJSON")
 
-    dataset.layers.create('line', null, gdal.Point);
+    dataset.layers.create('line', null, gdal.LineString);
     let layer = dataset.layers.get(0)
 
     Object.keys(input_list[0]).forEach(ev=>{
@@ -307,9 +313,10 @@ function writeFileGEOLine(input_list){
     })
     input_list.forEach(ev=>{
         ev.geometyArray
-        //console.log(ev.geometyArray)
-        let x = ev.geometyArray[0][1]
-        let y = ev.geometyArray[0][2]
+        //console.log('вывод',ev)
+        //console.log('вывод геометрии',ev.geometyArray)
+        //let x = ev.geometyArray[0][1]
+        //let y = ev.geometyArray[0][2]
         let feature = new gdal.Feature(layer)
         Object.keys(ev).forEach(key=>{
             //console.log(ev[key])
@@ -338,8 +345,103 @@ function writeFileGEOLine(input_list){
             }
             
         })
+        let lineString=new gdal.LineString();
+        ev.geometyArray[0].forEach(line=>{
+            //console.log(line)
+            let x=line[1]
+            let y=line[2]
+            lineString.points.add(new gdal.Point(x, y))
+        })
+        feature.setGeometry(lineString);
+        layer.features.add(feature);
+    
+    })
+    }
+
+//функция для poligon
+function writeFileGEOPoligon(input_list,output_file){
+    const dataset = gdal.open(output_file,"w","GeoJSON")
+
+    dataset.layers.create('poligon', null, gdal.MultiPolygon);
+    let layer = dataset.layers.get(0)
+
+    Object.keys(input_list[0]).forEach(ev=>{
+        //console.log(ev, typeof input_list[0][ev])
+        switch(typeof input_list[0][ev]){
+            case 'number' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTInteger))
+                break
+            };
+            case 'string' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+                break
+            };
+            case 'object' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+                break
+            };
+            default:{
+    
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+            }
+        }
+    })
+    input_list.forEach(ev=>{
+        ev.geometyArray
+        //console.log('вывод геометрии',ev.geometyArray)
+        //let x = ev.geometyArray[0][1]
+        //let y = ev.geometyArray[0][2]
+        let feature = new gdal.Feature(layer)
+        Object.keys(ev).forEach(key=>{
+            //console.log(ev[key])
+            //console.log(key)
+            switch(typeof ev[key]){
+                case 'number' :{
+                    feature.fields.set(key, ev[key])
+                    break
+                };
+                case 'string' :{
+                    feature.fields.set(key, ev[key])
+                    break
+                };
+                case 'object' :{
+                    if (ev[key]== null){
+                        feature.fields.set(key, null)
+                        break
+                    }
+                    //console.log(1, key, ev[key])
+                    feature.fields.set(key, ev[key].toString())
+                    break
+                };
+                default:{
+                    feature.fields.set(key, ev[key])
+                }
+            }
+            
+        })
+        let myltipoligon = new gdal.MultiPolygon();
+        ev.geometyArray.forEach(geometry=>{
+            //console.log(1, geometry)
+            let poligon = new gdal.Polygon();
+            let ring1 = new gdal.LinearRing()
+            geometry.forEach(line=>{
+                //console.log(1, line)
+                let x=line[1]
+                let y=line[2]
+                ring1.points.add(new gdal.Point(x, y))
+            })
+            poligon.rings.add(ring1)
+            if (myltipoligon.intersects(poligon)){
+                console.log('yes')
+                myltipoligon=myltipoligon.symDifference(poligon)
+            }else{
+                
+                myltipoligon.children.add(poligon)
+            }
+            
+        })
         
-        feature.setGeometry(new gdal.Point(x, y));
+        feature.setGeometry(myltipoligon);
         layer.features.add(feature);
     
     })
@@ -348,8 +450,11 @@ function writeFileGEOLine(input_list){
 
 
 
+
 writeFileGEOPiont(output_data_point)
-writeFileGEOLine(output_data_line)
+writeFileGEOLine(output_data_line, output_line)
+writeFileGEOPoligon(output_data_poligon, output_poligon)
+writeFileGEOPoligon(output_data_collection, output_collection)
 //console.log(JSON.stringify(test_list))
 //console.log(test_list.match(regexpTable))
 //console.log(createPoint(test_list.match(regexpTable)))
