@@ -139,7 +139,7 @@ for (let i=0;i<input_data.rows.length;i++){
             if (selectColon.match(regexpType).length>1){
                 odject_data_set.type='collection'
                 odject_data_set.crs=selectColon.match(regexpCoordSys)
-                odject_data_set.geometyArray=createLine(odject_data_set[input_data.cols[8][0]].match(regexpTable))
+                odject_data_set.geometyArray=createPoligon(odject_data_set[input_data.cols[8][0]].match(regexpTable))
                 output_data_collection.push(odject_data_set)
             }else{
                 switch(selectColon.match(regexpType)[0]){
@@ -168,7 +168,7 @@ for (let i=0;i<input_data.rows.length;i++){
                     default:{
                         odject_data_set.type='collection'
                         
-                        odject_data_set.geometyArray=createLine(odject_data_set[input_data.cols[8][0]].match(regexpTable))
+                        odject_data_set.geometyArray=createPoligon(odject_data_set[input_data.cols[8][0]].match(regexpTable))
                         odject_data_set.crs=selectColon.match(regexpCoordSys)
                         output_data_collection.push(odject_data_set)
                     }
