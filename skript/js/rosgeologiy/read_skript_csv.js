@@ -1,17 +1,32 @@
 import fs from 'fs';
 import path from 'path';
 import gdal from 'gdal-async';
+import XLSX from 'xlsx'
 
 
 
 //import input_data from './dagestan.json' assert {type: 'json'}; Неработает
-let input_data = JSON.parse( fs.readFileSync('./L.json')).result.data
+let input_data = JSON.parse( fs.readFileSync('./dagestan.json')).result.data
 const output_point='./output_point.geojson'
 const output_line='./output_line.geojson'
 const output_poligon='./output_poligon.geojson'
 const output_collection='./output_collection.geojson'
 const output_NaN='./output_NaN.geojson'
 const output_tible='./output_tible.geojson'
+
+const input_urlCsv='/home/dmitriy/Загрузки/opendata (1).csv'
+const regFiltSub = /ипецкая/
+const input_fileCsv  = XLSX.readFile(input_urlCsv);
+const list = XLSX.utils.sheet_to_json(
+    input_fileCsv.Sheets[input_fileCsv.SheetNames[0]]
+    )
+const list_filt=list.filter(elem=>regFiltSub.test(elem['Наименование субъекта Российской Федерации или иной территории, на которой расположен участок недр']))
+// list_filt.forEach((itim1, index1)=>{
+//     if (index1<2){
+//         console.log(itim1)
+//     }
+// })
+console.log(list_filt.length)
 
 //регулярки
 const regexpCoordSys=/(?<=(Система координат - ))\S{0,50}/g;
@@ -101,12 +116,15 @@ function createPoligon(arr){
 //функция для коллекций
 
 
-console.log(Object.keys( input_data))
-console.log(input_data.totals)
-Object.keys( input_data).forEach(ev=>{
-    console.log(ev, input_data[ev].length)
-})
+// console.log(Object.keys( input_data))
+// console.log(input_data.totals)
+// Object.keys( input_data).forEach(ev=>{
+//     console.log(ev, input_data[ev].length)
+// })
+//для csv
 
+
+//для json
 for (let i=0;i<input_data.rows.length;i++){
     //output_data[i]={}
     let odject_data_set={}
@@ -187,23 +205,23 @@ output_data_tible.forEach((ev, index)=>(
 
 
 
-//Тестовые вызовы!
-console.log('point', output_data_point.length)
-console.log('line', output_data_line.length)
-console.log('poligon', output_data_poligon.length)
-console.log('collection', output_data_collection.length)
-console.log('NaN', output_data_NaN.length)
-console.log('tible', output_data_tible.length)
-let test_odj=output_data_poligon[0]
-let test_list=test_odj['Географические координаты угловых точек участка недр, верхняя и нижняя границы участка недр']
-console.log(test_odj.uid)
-//console.log(test_odj)
-console.log(test_odj.geometyArray)
-console.log(test_list)
-//test_list.geometyArray.forEach(ev=>{console.log(ev)})
-//console.dir(output_data_point[0].geometyArray)
-//console.dir(output_data_line[0].geometyArray)
-console.dir(output_data_poligon[0].geometyArray)
+// //Тестовые вызовы!
+// console.log('point', output_data_point.length)
+// console.log('line', output_data_line.length)
+// console.log('poligon', output_data_poligon.length)
+// console.log('collection', output_data_collection.length)
+// console.log('NaN', output_data_NaN.length)
+// console.log('tible', output_data_tible.length)
+// let test_odj=output_data_poligon[194]
+// let test_list=test_odj['Географические координаты угловых точек участка недр, верхняя и нижняя границы участка недр']
+// console.log(test_odj.uid)
+// //console.log(test_odj)
+// console.log(test_odj.geometyArray)
+// console.log(test_list)
+// //test_list.geometyArray.forEach(ev=>{console.log(ev)})
+// //console.dir(output_data_point[0].geometyArray)
+// //console.dir(output_data_line[0].geometyArray)
+// console.dir(output_data_poligon[194].geometyArray)
 output_data_poligon.forEach((ev,insdex)=>{
     if (ev.geometyArray.length>1){
         //console.log(insdex, ev.geometyArray.length)
@@ -432,7 +450,7 @@ function writeFileGEOPoligon(input_list,output_file){
             })
             poligon.rings.add(ring1)
             if (myltipoligon.intersects(poligon)){
-                console.log('yes')
+                //console.log('yes')
                 myltipoligon=myltipoligon.symDifference(poligon)
             }else{
                 
@@ -451,10 +469,10 @@ function writeFileGEOPoligon(input_list,output_file){
 
 
 
-writeFileGEOPiont(output_data_point)
-//writeFileGEOLine(output_data_line, output_line)
-writeFileGEOPoligon(output_data_poligon, output_poligon)
-writeFileGEOPoligon(output_data_collection, output_collection)
+// writeFileGEOPiont(output_data_point)
+// writeFileGEOLine(output_data_line, output_line)
+// writeFileGEOPoligon(output_data_poligon, output_poligon)
+// writeFileGEOPoligon(output_data_collection, output_collection)
 //console.log(JSON.stringify(test_list))
 //console.log(test_list.match(regexpTable))
 //console.log(createPoint(test_list.match(regexpTable)))

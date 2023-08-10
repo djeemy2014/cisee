@@ -281,7 +281,8 @@ const body = JSON.stringify({'QueryType': 'GetRawOlapData+Query',
         },
         {
           'selectedFilterValues': [
-            '\u0412\u043B\u0430\u0434\u0438\u043C\u0438\u0440\u0441\u043A\u0430\u044F \u043E\u0431\u043B\u0430\u0441\u0442\u044C'
+            //'\u0412\u043B\u0430\u0434\u0438\u043C\u0438\u0440\u0441\u043A\u0430\u044F \u043E\u0431\u043B\u0430\u0441\u0442\u044C'
+            '\u041b\u0438\u043f\u0435\u0446\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c'
           ],
           'attributeId': 'SUB_RF_licenz',
           'dimensionOrDimensionRoleId': {
@@ -304,7 +305,7 @@ const body = JSON.stringify({'QueryType': 'GetRawOlapData+Query',
       }
     ],
     'offset': 0,
-    'limit': 100
+    'limit': 2600
   }
 },
 'CalculationQueries': [],
@@ -329,7 +330,7 @@ console.log(response.status)
 if (response.status==200){
   const body= await response.json()
   //console.log(body)
-  //fs.writeFileSync('./rfgf.csv',body,(err)=>{console.log('Ошибка записи!', err)})
+  await fs.writeFileSync('./L.json',JSON.stringify(body),(err)=>{console.log('Ошибка записи!', err)})
 }
 
 }
