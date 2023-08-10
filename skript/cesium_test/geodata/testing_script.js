@@ -5,14 +5,14 @@ let data = sessionStorage.getItem('key');
 console.log(document.querySelector('#glotalshow1'))
 
 
-function startup(Cesium) {
+async function startup(Cesium) {
     'use strict';
     //Sandcastle_Begin
     //Start
     // Grant CesiumJS access to your ion assets
     //Входные данные токенов
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMTUwNzAyMS1mMzMwLTQyYTUtOTZmOS00ZGM4YjY3MTIzNDYiLCJpZCI6NjQyMjUsImlhdCI6MTYyODk3NDA3OX0.Fl7fX1fyLVL864wneNG3dik4VhpESZ-AWWl8xXJAyK0";
-    let cesiumTerrainProvider = Cesium.createWorldTerrain();
+    let cesiumTerrainProvider = await Cesium.createWorldTerrainAsync();
     let ellipsoidProvider = new Cesium.EllipsoidTerrainProvider();
     let clockViewModel = new Cesium.ClockViewModel();
     let openstreetmapimagery = new Cesium.OpenStreetMapImageryProvider();
@@ -32,7 +32,7 @@ function startup(Cesium) {
         timeline: false,
         animation: false,
         homeButton: false,
-        terrainProvider: terrainProviderArcGis,
+        terrainProvider: cesiumTerrainProvider,
         imageryProvider: openstreetmapimagery,
 
     };
@@ -443,7 +443,7 @@ function startup(Cesium) {
         position_3d,
         hpr_d3
     );
-    createModel("./geodata/3dmodel/spasskaya_tower_of_moscow_kremlin_russia_2/scene.gltf", position_3d, orientation_d3);
+    //createModel("./geodata/3dmodel/spasskaya_tower_of_moscow_kremlin_russia_2/scene.gltf", position_3d, orientation_d3);
 
 
 
@@ -484,8 +484,12 @@ function startup(Cesium) {
 
 
     update(); */
-
-    viewer.scene.primitives.add(Cesium.createOsmBuildings());
+    async function addOSMBILD (){
+        viewer.scene.primitives.add(
+           await Cesium.createOsmBuildingsAsync()
+            );
+    }
+    addOSMBILD()
     //Настройки стартовой камеры
 
     viewer.camera.lookAt(

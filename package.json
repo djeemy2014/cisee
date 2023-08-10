@@ -13,7 +13,7 @@
   "dependencies": {
     "3d-tiles-renderer": "^0.3.16",
     "bootstrap": "^5.2.3",
-    "cesium": "^1.103.0",
+    "cesium": "^1.108.0",
     "csv": "^6.2.7",
     "csvtojson": "^2.0.10",
     "exceljs": "^4.3.0",

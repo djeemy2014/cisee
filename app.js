@@ -119,7 +119,7 @@ app.use(function(req,res,next){
   next()
 })
 app.use(express.static(__dirname + '/public'));
-app.use('/module',express.static(__dirname + '/node_modules/cesium/Build/Cesium'));
+app.use('/module',express.static(__dirname + '/node_modules/cesium'));
 app.use('/cesium_test', [
   express.static(__dirname + '/skript/cesium_test'),
   ()=>{console.log('2Ghbdtn')},
