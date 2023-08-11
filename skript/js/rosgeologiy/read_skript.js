@@ -448,6 +448,81 @@ function writeFileGEOPoligon(input_list,output_file){
     }
 
 
+//функция для линий
+function writeFileGEOTable(input_list,output_file){
+    const dataset = gdal.open(output_file,"w","GeoJSON")
+
+    dataset.layers.create('table', null, gdal.Point);
+    let layer = dataset.layers.get(0)
+
+    Object.keys(input_list[0]).forEach(ev=>{
+        //console.log(ev, typeof input_list[0][ev])
+        switch(typeof input_list[0][ev]){
+            case 'number' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTInteger))
+                break
+            };
+            case 'string' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+                break
+            };
+            case 'object' :{
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+                break
+            };
+            default:{
+    
+                layer.fields.add(new gdal.FieldDefn(ev,  gdal.OFTString))
+            }
+        }
+    })
+    input_list.forEach(ev=>{
+        //ev.geometyArray
+        //console.log('вывод',ev)
+        //console.log('вывод геометрии',ev.geometyArray)
+        //let x = ev.geometyArray[0][1]
+        //let y = ev.geometyArray[0][2]
+        let feature = new gdal.Feature(layer)
+        Object.keys(ev).forEach(key=>{
+            //console.log(ev[key])
+            //console.log(key)
+            switch(typeof ev[key]){
+                case 'number' :{
+                    feature.fields.set(key, ev[key])
+                    break
+                };
+                case 'string' :{
+                    feature.fields.set(key, ev[key])
+                    break
+                };
+                case 'object' :{
+                    if (ev[key]== null){
+                        feature.fields.set(key, null)
+                        break
+                    }
+                    //console.log(1, key, ev[key])
+                    feature.fields.set(key, ev[key].toString())
+                    break
+                };
+                default:{
+                    feature.fields.set(key, ev[key])
+                }
+            }
+            
+        })
+        //let lineString=new gdal.LineString();
+        // ev.geometyArray[0].forEach(line=>{
+        //     //console.log(line)
+        //     let x=line[1]
+        //     let y=line[2]
+        //     lineString.points.add(new gdal.Point(x, y))
+        // })
+        // feature.setGeometry(lineString);
+        layer.features.add(feature);
+    
+    })
+    }
+
 
 
 
@@ -455,6 +530,7 @@ writeFileGEOPiont(output_data_point)
 //writeFileGEOLine(output_data_line, output_line)
 writeFileGEOPoligon(output_data_poligon, output_poligon)
 writeFileGEOPoligon(output_data_collection, output_collection)
+writeFileGEOTable(output_data_tible, output_tible)
 //console.log(JSON.stringify(test_list))
 //console.log(test_list.match(regexpTable))
 //console.log(createPoint(test_list.match(regexpTable)))
