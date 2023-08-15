@@ -7,6 +7,9 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 import { send } from 'process';
 
+
+import {abcd} from './app/models/ceziumSee/ceziumSeeApp.js'
+
 const __filename = fileURLToPath(import.meta.url);
 
 // 👇️ "/home/john/Desktop/javascript"
@@ -107,9 +110,9 @@ const mime = express.static.mime;
     );
 
 
-app.get('/ab?cd', function(req, res) {
-  res.send('ab?cd');
-});
+// app.get('/ab?cd', function(req, res) {
+//   res.send('ab?cd');
+// });
 //app.set('view engine', 'pug');
 app.use(function(req,res,next){
   const regexp_1=/cesium_test\/Test/
@@ -141,6 +144,9 @@ app.get('/',function(req,res) {
   loger(req,res)
   //console.log(req)
 });
+
+app.get('/dima', abcd)
+
 app.get('/skript/fetchPKK_1/',function(req,res) {
   res.sendFile(`./skript/fetchPKK_1.html`,optionsPath);
   loger(req,res)

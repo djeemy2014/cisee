@@ -8,12 +8,12 @@ import { start } from 'repl';
 
 //import input_data from './dagestan.json' assert {type: 'json'}; Неработает
 let input_data = JSON.parse( fs.readFileSync('./dagestan.json')).result.data
-const output_point='./output_pointL.geojson'
-const output_line='./output_lineL.geojson'
-const output_poligon='./output_poligonL.geojson'
-const output_collection='./output_collectionL.geojson'
-const output_NaN='./output_NaNL.geojson'
-const output_tible='./output_tibleL.geojson'
+const output_point='./temp_file/output_pointL.geojson'
+const output_line='./temp_file/output_lineL.geojson'
+const output_poligon='./temp_file/output_poligonL.geojson'
+const output_collection='./temp_file/output_collectionL.geojson'
+const output_NaN='./temp_file/output_NaNL.geojson'
+const output_tible='./temp_file/output_tibleL.geojson'
 
 const input_urlCsv='/home/dmitriy/Загрузки/Плоская таблица (2).xlsx'
 

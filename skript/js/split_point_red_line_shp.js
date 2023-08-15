@@ -70,8 +70,8 @@ for (let i =miniim; i<=maxim;i++){
                 "Номер точки": ev.vertex_part_index+j,
                 "Номер контура": ev.vertex_part,
                 "Номер точки в контуре": ev.vertex_part_index,
-                x: ev.x,
-                y: ev.y,
+                x: ev.y,
+                y: ev.x,
                 typeGeometry:'G'
             } 
             q++
@@ -147,8 +147,8 @@ result.forEach((ev, index)=>{
     feature.fields.set('Номер точки', ev['Номер точки']);
     feature.fields.set('Номер контура', ev['Номер контура']);
     feature.fields.set('Номер точки в контуре', ev['Номер точки в контуре']);
-    feature.fields.set('x', ev.x);
-    feature.fields.set('y', ev.y);
+    feature.fields.set('x', ev.y);
+    feature.fields.set('y', ev.x);
     feature.fields.set('typeGeometry', ev.typeGeometry);
     //console.log(`point1. ${index} ${ev.fid}`)
     //console.timeLog('ev2')
