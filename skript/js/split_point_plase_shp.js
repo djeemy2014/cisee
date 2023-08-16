@@ -2,14 +2,25 @@ import XLSX from 'xlsx';
 import fs from 'fs'
 import path from 'path'
 import gdal from 'gdal-async'
+
+export default async function zu_point (){
 let event1='start'
-console.time(event1)
+//console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
 //const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_point_20230606.gpkg";
-const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\вершины участков_20230721.gpkg"; 
+//const url_input = "C:\\Users\\ddemidyuk\\Desktop\\20230811\\"
+const url_input = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Межевание\\20230827\\"
+const input_file = "ZU_point.gpkg"
+
+//await fs.promises.copyFile(url_input+input_file, 'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point.gpkg')
+console.log('Copy?')
+await fs.promises.copyFile(url_input+input_file, './skript/js/temp_file/ZU_point.gpkg')
+console.log('Copy!')
+//copyFile_gpkg(url_input, input_file, './temp_file/ZU_point.gpkg')
+const input_filegeometry = 'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point.gpkg'; 
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="Вершины учатков_new.xlsx";
-const output_newlaer="Вершины учатков_new"
+const output_xlsx="ZU_point_new.xlsx";
+const output_newlaer="ZU_point_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
@@ -35,13 +46,13 @@ console.log(0, ( layer.features.first().fid))
 //console.log(100, ( layer.features.get(1)))
 //console.log(100, ( layer.features.get(2)))
 console.log('start work')
-console.timeLog(event1)
+//console.timeLog(event1)
 layer.features.forEach((ev, index)=>{
     agrigetObj[index]=JSON.parse(ev.fields.toJSON())
     //console.log(ev)
     agrigetObj[index].fid=ev.fid
-    agrigetObj[index].x= Math.round (ev.getGeometry().x*100)/100
-    agrigetObj[index].y= Math.round (ev.getGeometry().y*100)/100
+    agrigetObj[index].y= Math.round (ev.getGeometry().x*100)/100
+    agrigetObj[index].x= Math.round (ev.getGeometry().y*100)/100
     //console.log(agrigetObj[index].numb_zu)
     maxim=Math.max(maxim,agrigetObj[index].numb_zu)
     miniim=Math.min(miniim,agrigetObj[index].numb_zu)
@@ -66,7 +77,7 @@ const line_vertex_par = list.reduce((x, y) => Math.max(x, y))
 //console.log(line_vertex_par)
 */
 console.log('start JSON')
-console.timeLog(event1)
+//console.timeLog(event1)
 for (let i =miniim; i<=maxim;i++){
     list_line=agrigetObj.filter(ev=>ev['numb_zu']==i)
     console.log(i,  list_line.length)
@@ -112,8 +123,8 @@ for (let i =miniim; i<=maxim;i++){
                 "Номер точки": ev.vertex_part_index+j,
                 "Номер контура": ev.vertex_index,
                 "Номер точки в контуре": ev.vertex_part_index,
-                x: ev.y,
-                y: ev.x,
+                x: ev.x,
+                y: ev.y,
                 typeGeometry:'L',
                 error_point: 0.1
             }
@@ -135,10 +146,10 @@ console.log(result.length)
 //dataset.close()
 //запись в XLSX
 console.log('start writeXLSX')
-console.timeLog(event1)
+//console.timeLog(event1)
 const worksheet = XLSX.utils.json_to_sheet(result);
 const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "Вершины учатков_new");
+XLSX.utils.book_append_sheet(workbook, worksheet, "ZU_point_new");
 XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
@@ -146,7 +157,7 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 const dataset_new = gdal.open(dir_input+"\\"+output_newlaer+".gpkg","w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
-const create_layers=dataset_new.layers.create('Вершины учатков_new', srs_layer, gdal.Point);
+const create_layers=dataset_new.layers.create('ZU_point_new', srs_layer, gdal.Point);
 const layer_new = dataset_new.layers.get(0)
 
 //console.dir(Object.getPrototypeOf(layer_new.features), {showHidden: true})
@@ -154,7 +165,7 @@ const layer_new = dataset_new.layers.get(0)
 //console.dir(layer_new.fields)
 console.dir(Math.sqrt( errorpoligon))
 console.log('start createLayers')
-console.timeLog(event1)
+//console.timeLog(event1)
 layer_new.fields.add(new gdal.FieldDefn('ID', gdal.OFTInteger));
 layer_new.fields.add(new gdal.FieldDefn('Номер точки', gdal.OFTInteger));
 layer_new.fields.add(new gdal.FieldDefn('Номер контура', gdal.OFTInteger));
@@ -164,21 +175,26 @@ layer_new.fields.add(new gdal.FieldDefn('y', gdal.OFTReal));
 layer_new.fields.add(new gdal.FieldDefn('typeGeometry', gdal.OFTString));
 
 //console.log(Object.keys(result[0]))
-console.time('ev')
+//console.time('ev')
 result.forEach(ev=>{
     let feature = new gdal.Feature(layer_new)
     feature.fields.set('ID', ev.nid);
     feature.fields.set('Номер точки', ev['Номер точки']);
     feature.fields.set('Номер контура', ev['Номер контура']);
     feature.fields.set('Номер точки в контуре', ev['Номер точки в контуре']);
-    feature.fields.set('x', ev.y);
-    feature.fields.set('y', ev.x);
+    feature.fields.set('x', ev.x);
+    feature.fields.set('y', ev.y);
     feature.fields.set('typeGeometry', ev.typeGeometry);
-    feature.setGeometry(new gdal.Point(ev.x, ev.y));
+    feature.setGeometry(new gdal.Point(ev.y, ev.x));
     layer_new.features.add(feature);
 })
 console.log('end')
-console.timeLog(event1)
+//console.timeLog(event1)
 //gdal.drivers.forEach(function(drive,i){
 //    console.log(drive.description);
 //})
+
+await fs.promises.copyFile('C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point_new.xlsx', url_input+"ZU_point_new.xlsx")
+await fs.promises.copyFile('C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/'+output_newlaer+".gpkg", url_input+output_newlaer+".gpkg")
+return 'Всу Успешно завершено!'
+}

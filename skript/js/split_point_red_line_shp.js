@@ -5,10 +5,16 @@ import gdal from 'gdal-async'
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Красные линии точки_20230720.gpkg";
+const url_input = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Межевание\\20230811\\"
+const input_file = "red_line_point.gpkg"
+
+await fs.promises.copyFile(url_input+input_file, './skript/js/temp_file/red_line_point.gpkg')
+//copyFile_gpkg(url_input, input_file, './temp_file/ZU_point.gpkg')
+const input_filegeometry = './skript/js/temp_file/red_line_point.gpkg'; 
+//const input_filegeometry = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Красные линии точки_20230720.gpkg";
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
-const output_xlsx="Красные линии_new"+".xlsx";
-const output_newlaer="Красные линии_new"
+const output_xlsx="red_line_point_new"+".xlsx";
+const output_newlaer="red_line_point_new"
 let agrigetObj=[];
 let list_line=[];
 let result=[];
@@ -33,8 +39,8 @@ console.timeLog(event1)
 layer.features.forEach((ev, index)=>{
     agrigetObj[index]=JSON.parse(ev.fields.toJSON())
     //console.log(agrigetObj[index])
-    agrigetObj[index].x= Math.round (ev.getGeometry().x*100)/100
-    agrigetObj[index].y= Math.round (ev.getGeometry().y*100)/100
+    agrigetObj[index].y= Math.round (ev.getGeometry().x*100)/100
+    agrigetObj[index].x= Math.round (ev.getGeometry().y*100)/100
     maxim=Math.max(maxim,agrigetObj[index].vertex_part)
     miniim=Math.min(miniim,agrigetObj[index].vertex_part)
 })
@@ -111,7 +117,7 @@ for (let i =miniim; i<=maxim;i++){
 console.timeLog(event1)
 const worksheet = XLSX.utils.json_to_sheet(result);
 const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, "Красные линии_new");
+XLSX.utils.book_append_sheet(workbook, worksheet, "red_line_point_new");
 XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 
 //запись в новый файл
@@ -119,7 +125,7 @@ XLSX.writeFile(workbook, dir_input+"\\"+output_xlsx, { compression: true });
 const dataset_new = gdal.open(dir_input+"\\"+output_newlaer+".gpkg","w","GPKG")
 
 //const dataset_new = gdal.Driver.create(dir_input+"\\"+output_newlaer, "GPKG")
-const create_layers=dataset_new.layers.create('Красные линии_new', srs_layer, gdal.Point);
+const create_layers=dataset_new.layers.create('red_line_new', srs_layer, gdal.Point);
 const layer_new = dataset_new.layers.get(0)
 
 //console.dir(Object.getPrototypeOf(layer_new.features), {showHidden: true})
@@ -166,3 +172,6 @@ console.log('end')
 //gdal.drivers.forEach(function(drive,i){
 //    console.log(drive.description);
 //})
+
+await fs.promises.copyFile('./skript/js/temp_file/red_line_point_new.xlsx', url_input+"red_line_point_new.xlsx")
+await fs.promises.copyFile('./skript/js/temp_file/'+output_newlaer+".gpkg", url_input+output_newlaer+".gpkg")

@@ -9,6 +9,7 @@ import { send } from 'process';
 
 
 import {abcd} from './app/models/ceziumSee/ceziumSeeApp.js'
+import zu_point from './skript/js/split_point_plase_shp.js'
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -162,6 +163,9 @@ app.get('./cesium_test/Test_1.html',function(req,res) {
 })
 app.get('/creaet_project',function(req,res){
   res.sendFile('skript\\js\\creaet_project.js',optionsPath)
+})
+app.get('/creaet_zu_point',function(req,res){
+  zu_point().then((ev)=> res.sendFile(ev))
 })
 /* app.get('/module',function(req,res){
   res.use('./node_modules/cesium/Build/Cesium')
