@@ -2,10 +2,13 @@ import XLSX from 'xlsx';
 import fs from 'fs'
 import path from 'path'
 import gdal from 'gdal-async'
+
+
+export default async function redLine (){
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const url_input = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Межевание\\20230811\\"
+const url_input = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Межевание\\20230827\\"
 const input_file = "red_line_point.gpkg"
 
 await fs.promises.copyFile(url_input+input_file, './skript/js/temp_file/red_line_point.gpkg')
@@ -72,12 +75,12 @@ for (let i =miniim; i<=maxim;i++){
         list_line[list_line.length-1].vertex_part_index=0;
         list_line.forEach((ev, index)=>{
             result[q]={
-                fid: ev.vertex_index,
+                nid: ev.vertex_index,
                 "Номер точки": ev.vertex_part_index+j,
                 "Номер контура": ev.vertex_part,
                 "Номер точки в контуре": ev.vertex_part_index,
-                x: ev.y,
-                y: ev.x,
+                x: ev.x,
+                y: ev.y,
                 typeGeometry:'G'
             } 
             q++
@@ -88,7 +91,7 @@ for (let i =miniim; i<=maxim;i++){
     }else{
         list_line.forEach((ev, index)=>{
             result[q]={
-                fid: ev.vertex_index,
+                nid: ev.vertex_index,
                 "Номер точки": ev.vertex_part_index+j,
                 "Номер контура": ev.vertex_part,
                 "Номер точки в контуре": ev.vertex_part_index,
@@ -149,16 +152,16 @@ result.forEach((ev, index)=>{
     //console.log(`start.${index}`)
     //console.time('ev2')
     //console.timeLog('ev2')
-    feature.fields.set('ID', ev.fid);
+    feature.fields.set('ID', ev.nid);
     feature.fields.set('Номер точки', ev['Номер точки']);
     feature.fields.set('Номер контура', ev['Номер контура']);
     feature.fields.set('Номер точки в контуре', ev['Номер точки в контуре']);
-    feature.fields.set('x', ev.y);
-    feature.fields.set('y', ev.x);
+    feature.fields.set('x', ev.x);
+    feature.fields.set('y', ev.y);
     feature.fields.set('typeGeometry', ev.typeGeometry);
-    //console.log(`point1. ${index} ${ev.fid}`)
+    //console.log(`point1. ${index} ${ev.nid}`)
     //console.timeLog('ev2')
-    feature.setGeometry(new gdal.Point(ev.x, ev.y));
+    feature.setGeometry(new gdal.Point(ev.y, ev.x));
     //console.log(`point2.${index}`)
     //console.timeLog('ev2')
     //console.log(`end.${index}`)
@@ -166,7 +169,8 @@ result.forEach((ev, index)=>{
     //console.timeEnd('ev2')
     layer_new.features.add(feature);
 })
-
+dataset.close()
+dataset_new.close()
 console.log('end')
 //console.timeLog(event1)
 //gdal.drivers.forEach(function(drive,i){
@@ -175,3 +179,9 @@ console.log('end')
 
 await fs.promises.copyFile('./skript/js/temp_file/red_line_point_new.xlsx', url_input+"red_line_point_new.xlsx")
 await fs.promises.copyFile('./skript/js/temp_file/'+output_newlaer+".gpkg", url_input+output_newlaer+".gpkg")
+await fs.promises.rm('./skript/js/temp_file/red_line_point_new.xlsx')
+await fs.promises.rm('./skript/js/temp_file/'+output_newlaer+".gpkg")
+await fs.promises.rm('./skript/js/temp_file/red_line_point.gpkg')
+return ([url_input+"red_line_point_new.xlsx", url_input+output_newlaer+".gpkg"])
+
+}

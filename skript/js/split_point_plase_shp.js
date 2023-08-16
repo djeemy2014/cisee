@@ -14,10 +14,10 @@ const input_file = "ZU_point.gpkg"
 
 //await fs.promises.copyFile(url_input+input_file, 'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point.gpkg')
 console.log('Copy?')
-await fs.promises.copyFile(url_input+input_file, './skript/js/temp_file/ZU_point.gpkg')
+await fs.promises.copyFile(url_input+input_file, './skript/js/temp_file/ZU_point.gpkg').then(console.log).catch(console.log)
 console.log('Copy!')
 //copyFile_gpkg(url_input, input_file, './temp_file/ZU_point.gpkg')
-const input_filegeometry = 'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point.gpkg'; 
+const input_filegeometry = './skript/js/temp_file/ZU_point.gpkg'; //'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point.gpkg'
 //const output_path = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Red_Line_point_20230510_4.xlsx"; 
 const output_xlsx="ZU_point_new.xlsx";
 const output_newlaer="ZU_point_new"
@@ -189,12 +189,18 @@ result.forEach(ev=>{
     layer_new.features.add(feature);
 })
 console.log('end')
+dataset.close()
+dataset_new.close()
 //console.timeLog(event1)
 //gdal.drivers.forEach(function(drive,i){
 //    console.log(drive.description);
 //})
 
-await fs.promises.copyFile('C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point_new.xlsx', url_input+"ZU_point_new.xlsx")
-await fs.promises.copyFile('C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/'+output_newlaer+".gpkg", url_input+output_newlaer+".gpkg")
-return 'Всу Успешно завершено!'
+await fs.promises.copyFile('./skript/js/temp_file/ZU_point_new.xlsx', url_input+"ZU_point_new.xlsx")
+await fs.promises.copyFile('./skript/js/temp_file/'+"ZU_point_new.gpkg", url_input+"ZU_point_new.gpkg")
+//await fs.promises.unlink('./skript/js/temp_file/'+"ZU_point_new.gpkg")
+await fs.promises.rm('./skript/js/temp_file/'+"ZU_point.gpkg")
+await fs.promises.rm('./skript/js/temp_file/ZU_point_new.xlsx')
+await fs.promises.rm('./skript/js/temp_file/'+"ZU_point_new.gpkg")
+return ([url_input+"ZU_point_new.xlsx", url_input+"ZU_point_new.gpkg"])
 }

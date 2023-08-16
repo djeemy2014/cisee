@@ -10,6 +10,7 @@ import { send } from 'process';
 
 import {abcd} from './app/models/ceziumSee/ceziumSeeApp.js'
 import zu_point from './skript/js/split_point_plase_shp.js'
+import redLine from './skript/js/split_point_red_line_shp.js'
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -164,8 +165,37 @@ app.get('./cesium_test/Test_1.html',function(req,res) {
 app.get('/creaet_project',function(req,res){
   res.sendFile('skript\\js\\creaet_project.js',optionsPath)
 })
-app.get('/creaet_zu_point',function(req,res){
-  zu_point().then((ev)=> res.sendFile(ev))
+//app.get('/creaet_zu_point_test',function(req,res){res.s}
+
+app.get('/creat_zu_point',async function(req,res, next){
+  const bodys={ user: 'server' }
+  bodys.status='work'
+  res.set({ 'content-type': 'application/json; charset=utf-8' });
+  try{
+    await zu_point().then(ev=>{bodys.path=ev});
+    bodys.status='complit'
+  }catch{
+    bodys.status='err'
+  }
+  next();
+  res.end(JSON.stringify(bodys, null, "\t"))
+  console.log(JSON.stringify(bodys, null, "\t"))
+  console.log(req.ip)
+})
+app.get('/creat_red_line_point',async function(req,res, next){
+  const bodys={ user: 'server' }
+  bodys.status='work'
+  res.set({ 'content-type': 'application/json; charset=utf-8' });
+  try{
+    await redLine().then(ev=>{bodys.path=ev});
+    bodys.status='complit'
+  }catch{
+    bodys.status='err'
+  }
+  next();
+  res.end(JSON.stringify(bodys, null, "\t"))
+  console.log(JSON.stringify(bodys, null, "\t"))
+  console.log(req.ip)
 })
 /* app.get('/module',function(req,res){
   res.use('./node_modules/cesium/Build/Cesium')
