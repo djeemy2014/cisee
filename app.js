@@ -178,10 +178,11 @@ app.get('/creat_zu_point',async function(req,res, next){
   }catch{
     bodys.status='err'
   }
-  next();
+  //next();
   res.end(JSON.stringify(bodys, null, "\t"))
   console.log(JSON.stringify(bodys, null, "\t"))
   console.log(req.ip)
+  //req.end()
 })
 app.get('/creat_red_line_point',async function(req,res, next){
   const bodys={ user: 'server' }
@@ -193,25 +194,30 @@ app.get('/creat_red_line_point',async function(req,res, next){
   }catch{
     bodys.status='err'
   }
-  next();
+  //next();
   res.end(JSON.stringify(bodys, null, "\t"))
   console.log(JSON.stringify(bodys, null, "\t"))
   console.log(req.ip)
+  //req.end()
 })
 app.get('/workList',async function(req,res, next){
   const bodys={ user: 'server' }
   bodys.status='work'
   res.set({ 'content-type': 'application/json; charset=utf-8' });
   try{
+    console.log('work') 
     await joinSplitZU().then(ev=>{bodys.path=ev});
     bodys.status='complit'
+    console.log('complit')
   }catch{
+    console.log('err')
     bodys.status='err'
   }
-  next();
+  //next();
   res.end(JSON.stringify(bodys, null, "\t"))
   console.log(JSON.stringify(bodys, null, "\t"))
   console.log(req.ip)
+  //req.end()
 })
 /* app.get('/module',function(req,res){
   res.use('./node_modules/cesium/Build/Cesium')
