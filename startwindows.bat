@@ -1,2 +1,1 @@
-cd C:\Users\ddemidyuk\Documents\WORK\script\education\
-npm stast
+cd C:\Users\ddemidyuk\Documents\WORK\script\education\ && timeout /t 10 && npm start

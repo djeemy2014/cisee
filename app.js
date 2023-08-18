@@ -11,6 +11,7 @@ import { send } from 'process';
 import {abcd} from './app/models/ceziumSee/ceziumSeeApp.js'
 import zu_point from './skript/js/split_point_plase_shp.js'
 import redLine from './skript/js/split_point_red_line_shp.js'
+import joinSplitZU from './skript/js/join_in_excel.js'
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -188,6 +189,21 @@ app.get('/creat_red_line_point',async function(req,res, next){
   res.set({ 'content-type': 'application/json; charset=utf-8' });
   try{
     await redLine().then(ev=>{bodys.path=ev});
+    bodys.status='complit'
+  }catch{
+    bodys.status='err'
+  }
+  next();
+  res.end(JSON.stringify(bodys, null, "\t"))
+  console.log(JSON.stringify(bodys, null, "\t"))
+  console.log(req.ip)
+})
+app.get('/workList',async function(req,res, next){
+  const bodys={ user: 'server' }
+  bodys.status='work'
+  res.set({ 'content-type': 'application/json; charset=utf-8' });
+  try{
+    await joinSplitZU().then(ev=>{bodys.path=ev});
     bodys.status='complit'
   }catch{
     bodys.status='err'

@@ -2,8 +2,13 @@ import XLSX from 'xlsx';
 import fs from 'fs'
 import path from 'path'
 
+export default async function joinSplitZU (){
 
-const input_xlsx = "C:\\Users\\ddemidyuk\\Desktop\\20230711\\Этапы.xlsx";
+const url_input = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Межевание\\20230827\\"
+const input_xlsx_path = url_input+"Этапы.xlsx";
+
+const input_xlsx = "./skript/js/temp_file/Этапы.xlsx"
+await fs.promises.copyFile(input_xlsx_path, input_xlsx)
 
 //чтение файла
 const file = XLSX.readFile(input_xlsx);
@@ -62,4 +67,10 @@ XLSX.utils.book_append_sheet(file, worksheet, "2 этап_js");
 const worksheet_2 = XLSX.utils.json_to_sheet(list_1);
 XLSX.utils.book_append_sheet(file, worksheet_2, "1 этап_js")
 console.log(file.SheetNames)
-XLSX.writeFile(file, "C:\\Users\\ddemidyuk\\Desktop\\20230711\\"+"Этапы_js.xlsx", { compression: true });
+XLSX.writeFile(file, "./skript/js/temp_file/"+"Этапы_js.xlsx", { compression: true });
+
+await fs.promises.copyFile('./skript/js/temp_file/Этапы_js.xlsx', url_input+"Этапы_js.xlsx")
+await fs.promises.rm('./skript/js/temp_file/Этапы_js.xlsx')
+await fs.promises.rm('./skript/js/temp_file/Этапы.xlsx')
+return ([url_input+"Этапы_js.xlsx"])
+}
