@@ -93,7 +93,7 @@ for (let i =miniim; i<=maxim;i++){
             result[q]={
                 nid: ev.vertex_index,
                 "Номер точки": ev.vertex_part_index+j,
-                "Номер контура": ev.vertex_part,
+                "Номер контура": ev.vertex_part+1,
                 "Номер точки в контуре": ev.vertex_part_index,
                 x: ev.x,
                 y: ev.y,
