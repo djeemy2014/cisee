@@ -80,7 +80,11 @@ console.log('start JSON')
 //console.timeLog(event1)
 for (let i =miniim; i<=maxim;i++){
     list_line=agrigetObj.filter(ev=>ev['numb_zu']==i)
-    console.log(i,  list_line.length)
+    if (list_line.length===0)continue
+    //console.log(i,  list_line.length)
+    result[q]={nid:0, "Номер контура": list_line[0].numb_zu, "Площадь":list_line[0].area}
+    q++
+    console.log(result[q])
     //if (i==128){console.log(i,  agrigetObj)}
     //console.log(i, list_line[0].x, list_line[0].y,list_line[list_line.length-1].x, list_line[list_line.length-1].y)
     if (list_line[0].x==list_line[list_line.length-1].x&&list_line[0].y==list_line[list_line.length-1].y){
@@ -118,11 +122,12 @@ for (let i =miniim; i<=maxim;i++){
     }else{
         list_line.forEach((ev, index)=>{
             //console.log(ev)
+
             result[q]={
-                nid: ev.numb_zu,
+                nid: ev.fid,
                 "Номер точки": ev.vertex_part_index+j,
-                "Номер контура": ev.vertex_index,
-                "Номер точки в контуре": ev.vertex_part_index,
+                "Номер контура":  ev.numb_zu,
+                "Номер точки в контуре": ev.vertex_part_index+1,
                 x: ev.x,
                 y: ev.y,
                 typeGeometry:'L',
@@ -176,7 +181,8 @@ layer_new.fields.add(new gdal.FieldDefn('typeGeometry', gdal.OFTString));
 
 //console.log(Object.keys(result[0]))
 //console.time('ev')
-result.forEach(ev=>{
+const resultFilter = result.filter(ev=>ev.nid!=0)
+resultFilter.forEach(ev=>{
     let feature = new gdal.Feature(layer_new)
     feature.fields.set('ID', ev.nid);
     feature.fields.set('Номер точки', ev['Номер точки']);

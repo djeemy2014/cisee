@@ -5,14 +5,14 @@ let data = sessionStorage.getItem('key');
 console.log(document.querySelector('#glotalshow1'))
 
 
-async function startup(Cesium) {
+ function startup(Cesium) {
     'use strict';
     //Sandcastle_Begin
     //Start
     // Grant CesiumJS access to your ion assets
     //Входные данные токенов
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhMTUwNzAyMS1mMzMwLTQyYTUtOTZmOS00ZGM4YjY3MTIzNDYiLCJpZCI6NjQyMjUsImlhdCI6MTYyODk3NDA3OX0.Fl7fX1fyLVL864wneNG3dik4VhpESZ-AWWl8xXJAyK0";
-    let cesiumTerrainProvider = await Cesium.createWorldTerrainAsync();
+    let cesiumTerrainProvider = Cesium.createWorldTerrainAsync();
     let ellipsoidProvider = new Cesium.EllipsoidTerrainProvider();
     let clockViewModel = new Cesium.ClockViewModel();
     let openstreetmapimagery = new Cesium.OpenStreetMapImageryProvider();
@@ -32,7 +32,7 @@ async function startup(Cesium) {
         timeline: false,
         animation: false,
         homeButton: false,
-        terrainProvider: cesiumTerrainProvider,
+        terrainProvider: ellipsoidProvider,
         imageryProvider: openstreetmapimagery,
 
     };

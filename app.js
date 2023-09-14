@@ -2,6 +2,7 @@ import express from 'express'
 import fs from 'fs'
 import http from 'http'
 import pg from 'pg';
+import cors from 'cors';
 
 import path from 'path';
 import {fileURLToPath} from 'url';
@@ -82,7 +83,7 @@ function updatebd() {
 
 function loger(req,res){
   let data = new Date()
-  let log={href: req.url, ipv6: req.ip, date: data , date_strint:`${data}`}
+  let log={href: req.url, ipv6: req.ip, date: data , date_strint:`${data}`, req:req.header, res: res}
   return console.dir(log)
 }
 
@@ -117,10 +118,17 @@ const mime = express.static.mime;
 //   res.send('ab?cd');
 // });
 //app.set('view engine', 'pug');
+
+const corsOptions = {
+  origin: 'http://10.0.5.190:8000/',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors())
 app.use(function(req,res,next){
   const regexp_1=/cesium_test\/Test/
   if (regexp_1.test(req.url)){
-    loger(req);
+    loger(req,res);
   }
   next()
 })
@@ -149,6 +157,10 @@ app.get('/',function(req,res) {
 });
 
 app.get('/dima', abcd)
+app.get('/testing',function(req,res){
+  res.sendFile(`./skript/cesium_test/geodata/geojson/react/VDC_3857.geojson`,optionsPath);
+  loger(req,res)
+})
 
 app.get('/skript/fetchPKK_1/',function(req,res) {
   res.sendFile(`./skript/fetchPKK_1.html`,optionsPath);
