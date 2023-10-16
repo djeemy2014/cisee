@@ -221,6 +221,12 @@
                 "description": "Базы данных",
                 "substructs": null
             }
+            ,
+            {
+                "directories": "11_KPT",
+                "description": "Исходные данные",
+                "substructs": null
+            }
         ]    
     }
 ]
