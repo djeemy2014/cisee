@@ -9,7 +9,7 @@ let event1='start'
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
 //const input_filegeometry = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\plant_point_20230606.gpkg";
 //const url_input = "C:\\Users\\ddemidyuk\\Desktop\\20230811\\"
-const url_input = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Межевание\\20230827\\"
+const url_input = "O:\\Градостроительство\\2023\\ВДЦ ДАГЕСТАН\\11_GeoData\\3_vector\\Межевание\\Итоговый вариант\\"
 const input_file = "ZU_point.gpkg"
 
 //await fs.promises.copyFile(url_input+input_file, 'C:/Users/ddemidyuk/Documents/WORK/script/education/skript/js/temp_file/ZU_point.gpkg')
@@ -57,7 +57,10 @@ layer.features.forEach((ev, index)=>{
     maxim=Math.max(maxim,agrigetObj[index].numb_zu)
     miniim=Math.min(miniim,agrigetObj[index].numb_zu)
 })
+const listZUFromPoint = agrigetObj.map(ev=>ev.numb_zu).filter((x,i,a)=>a.indexOf(x)===i)
 console.log(agrigetObj.length)
+console.log(listZUFromPoint)
+console.log(listZUFromPoint.length)
 console.log(maxim)
 console.log(miniim)
 //console.log(JSON.stringify(layer.features))
@@ -78,13 +81,14 @@ const line_vertex_par = list.reduce((x, y) => Math.max(x, y))
 */
 console.log('start JSON')
 //console.timeLog(event1)
-for (let i =miniim; i<=maxim;i++){
+
+for (const i of listZUFromPoint){
     list_line=agrigetObj.filter(ev=>ev['numb_zu']==i)
     if (list_line.length===0)continue
     //console.log(i,  list_line.length)
     result[q]={nid:0, "Номер контура": list_line[0].numb_zu, "Площадь":list_line[0].area}
     q++
-    console.log(result[q])
+    //console.log(result[q])
     //if (i==128){console.log(i,  agrigetObj)}
     //console.log(i, list_line[0].x, list_line[0].y,list_line[list_line.length-1].x, list_line[list_line.length-1].y)
     if (list_line[0].x==list_line[list_line.length-1].x&&list_line[0].y==list_line[list_line.length-1].y){

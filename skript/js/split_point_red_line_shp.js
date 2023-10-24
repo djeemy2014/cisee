@@ -8,7 +8,7 @@ export default async function redLine (){
 let event1='start'
 console.time(event1)
 //программа берет данные (точки) сохраненные qgis и записывает новый файл для КРАСНЫХ ЛИНИЙ С НЕПРЕРЫВНОЙ НУМЕРАЦИЕЙ
-const url_input = "O:\\Градостроительство\\2022\\ОЭЗ ТРК Каспийский прибрежный кластер\\09_GeoData\\3_vector\\Межевание\\20230827\\"
+const url_input = "O:\\Градостроительство\\2023\\ВДЦ ДАГЕСТАН\\11_GeoData\\3_vector\\Межевание\\Итоговый вариант\\"
 const input_file = "red_line_point.gpkg"
 
 await fs.promises.copyFile(url_input+input_file, './skript/js/temp_file/red_line_point.gpkg')
