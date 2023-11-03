@@ -48,6 +48,11 @@ layer.features.forEach((ev, index)=>{
     miniim=Math.min(miniim,agrigetObj[index].vertex_part)
 })
 //console.log(agrigetObj)
+
+const listRedlindeFromPoint = agrigetObj.map(ev=>ev.numb_line).filter((x,i,a)=>a.indexOf(x)===i)
+console.log(agrigetObj.length)
+console.log(listRedlindeFromPoint)
+console.log(listRedlindeFromPoint.length)
 console.log(maxim, miniim)
 //console.log(JSON.stringify(layer.features))
 //console.log("fields: " + layer.fields.getNames())
@@ -67,8 +72,9 @@ const line_vertex_par = list.reduce((x, y) => Math.max(x, y))
 */
 console.log('start JSON')
 console.timeLog(event1)
-for (let i =miniim; i<=maxim;i++){
-    list_line=agrigetObj.filter(ev=>ev['vertex_part']==i)
+for (const i of listRedlindeFromPoint){
+    console.log(i)
+    list_line=agrigetObj.filter(ev=>ev['numb_line']==i)
     //console.log(i, list_line.length)
     //console.log(i, list_line[0].x, list_line[0].y,list_line[list_line.length-1].x, list_line[list_line.length-1].y)
     if (list_line[0].x==list_line[list_line.length-1].x&&list_line[0].y==list_line[list_line.length-1].y){
@@ -77,7 +83,7 @@ for (let i =miniim; i<=maxim;i++){
             result[q]={
                 nid: ev.vertex_index,
                 "Номер точки": ev.vertex_part_index+j,
-                "Номер контура": ev.vertex_part,
+                "Номер контура": ev.numb_line,
                 "Номер точки в контуре": ev.vertex_part_index,
                 x: ev.x,
                 y: ev.y,
@@ -93,7 +99,7 @@ for (let i =miniim; i<=maxim;i++){
             result[q]={
                 nid: ev.vertex_index,
                 "Номер точки": ev.vertex_part_index+j,
-                "Номер контура": ev.vertex_part+1,
+                "Номер контура": ev.numb_line+1,
                 "Номер точки в контуре": ev.vertex_part_index,
                 x: ev.x,
                 y: ev.y,
