@@ -3,7 +3,8 @@ import fs from 'fs';
 //import projectDirectoriesJSON from './schemProjekt.json';
 //базовый каталок
 //ПЕРЕПИСАТЬ НА отностительные пути C:\Users\ddemidyuk\Documents\WORK\Project\Хантамансийск
-const baseFolder = 'O:\\Градостроительство\\2023\\ВЕДУЧИ';
+//const baseFolder = 'O:\\Градостроительство\\2023\\ВЕДУЧИ';
+const baseFolder = 'C:\\Users\\ddemidyuk\\Documents\\WORK\\Project\\Псехако СОЧИ';
 //const projectDirectories =  fs.readFileSync('./schemProjekt.json', 'utf8');
 //const projectDirectories =  fs.readFileSync('C:\\Users\\ddemidyuk\\Documents\\WORK\\script\\education\\skript\\js\\schemProjekt.json', 'utf8');
 const projectDirectories =  fs.readFileSync('./skript/js/schemProjekt.json', 'utf8');

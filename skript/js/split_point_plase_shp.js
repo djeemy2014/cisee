@@ -84,6 +84,7 @@ console.log('start JSON')
 
 for (const i of listZUFromPoint){
     list_line=agrigetObj.filter(ev=>ev['numb_zu']==i)
+    console.log(list_line.length)
     if (list_line.length===0)continue
     //console.log(i,  list_line.length)
     result[q]={nid:0, "Номер контура": list_line[0].numb_zu, "Площадь":list_line[0].area}
@@ -102,11 +103,13 @@ for (const i of listZUFromPoint){
                 let d_y=((0.35*0.1)**2)*((list_line[0].y-list_line[index-1].y)**2)
                 let d_x=((0.35*0.1)**2)*((list_line[0].x-list_line[index-1].x)**2)
                 errorpoligon+=(d_y+d_x)
+                console.log("EEES",d_y,d_x, errorpoligon)
             }else{
                 let d_y=((0.35*0.1)**2)*((list_line[index+1].y-list_line[index-1].y)**2)
                 let d_x=((0.35*0.1)**2)*((list_line[index+1].x-list_line[index-1].x)**2)
                 errorpoligon+=(d_y+d_x)
             }
+            
             result[q]={
                 nid: ev.fid,
                 "Номер точки": ev.vertex_part_index+j,
@@ -126,7 +129,21 @@ for (const i of listZUFromPoint){
     }else{
         list_line.forEach((ev, index)=>{
             //console.log(ev)
-
+            // if (index-1<0){
+            //     let d_y=((0.35*0.1)**2)*((list_line[index+1].y-list_line[list_line.length-1].y)**2)
+            //     let d_x=((0.35*0.1)**2)*((list_line[index+1].x-list_line[list_line.length-1].x)**2)
+            //     errorpoligon+=(d_y+d_x)
+            // }else if(index+1>list_line.length-1){
+            //     let d_y=((0.35*0.1)**2)*((list_line[0].y-list_line[index-1].y)**2)
+            //     let d_x=((0.35*0.1)**2)*((list_line[0].x-list_line[index-1].x)**2)
+            //     errorpoligon+=(d_y+d_x)
+                
+            // }else{
+            //     let d_y=((0.35*0.1)**2)*((list_line[index+1].y-list_line[index-1].y)**2)
+            //     let d_x=((0.35*0.1)**2)*((list_line[index+1].x-list_line[index-1].x)**2)
+            //     errorpoligon+=(d_y+d_x)
+            // }
+            // console.log("EEES",d_y,d_x, errorpoligon)
             result[q]={
                 nid: ev.fid,
                 "Номер точки": ev.vertex_part_index+j,
@@ -141,7 +158,7 @@ for (const i of listZUFromPoint){
         })
         j+=list_line.length
     }
-    
+    console.log(101010)
     //result=result.concat(list_line)
 }
 
@@ -173,6 +190,7 @@ const layer_new = dataset_new.layers.get(0)
 //console.dir(layer_new.features)
 //console.dir(layer_new.fields)
 console.dir(Math.sqrt( errorpoligon))
+console.dir(3.5*0.1*Math.sqrt( 35144))//area
 console.log('start createLayers')
 //console.timeLog(event1)
 layer_new.fields.add(new gdal.FieldDefn('ID', gdal.OFTInteger));
