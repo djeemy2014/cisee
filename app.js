@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import path from 'path';
 import {fileURLToPath} from 'url';
+import timeout from 'connect-timeout'
 //import { send } from 'process';
 
 
@@ -123,7 +124,7 @@ const corsOptions = {
   origin: 'http://10.0.5.190:8000/',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-
+app.use(timeout('11s'))
 app.use(cors())
 app.use(function(req,res,next){
   const regexp_1=/cesium_test\/Test/
