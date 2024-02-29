@@ -42,6 +42,42 @@
                 "directories": "07_Итоговые сметы",
                 "description": "Итоговые сметы",
                 "substructs": null
+            },
+            {
+                "directories": "08_Перечень рабочих замечаний",
+                "description": "Перечень рабочих замечаний",
+                "substructs": [
+                    {
+                        "directories": "02_Технические задания",
+                        "description": "Технические задания",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "03_Сметы",
+                        "description": "Сметы",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "04_Программы работ",
+                        "description": "Программы работ",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "05_Акты приема",
+                        "description": "Акты приема",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "06_Отчеты",
+                        "description": "Отчеты по изысканиям",
+                        "substructs": null
+                    },
+                    {
+                        "directories": "07_Итоговые сметы",
+                        "description": "Итоговые сметы",
+                        "substructs": null
+                    }
+                ]
             }
         ]
     },

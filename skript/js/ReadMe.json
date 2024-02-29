@@ -27,4 +27,12 @@
         "описание":"созданые структуры для работы"
 
     }
+    ,
+    {
+        "путь":".\\skript\\cesium_test\\geodata\\script\\createTranformMatrix.js",
+        "input":"-",
+        "output":"C:/Users/ddemidyuk/Documents/WORK/script/education/skript/cesium_test/geodata/testModel/geojson/3DfloorsOKSgltf.geojson",
+        "описание":"записывает в атрибуты точек матрицы трансформаций для каждой точки"
+
+    }
 ]
