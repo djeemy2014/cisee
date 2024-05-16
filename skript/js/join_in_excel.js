@@ -2,10 +2,12 @@ import XLSX from 'xlsx';
 import fs from 'fs'
 import path from 'path'
 
-export default async function joinSplitZU (){
+export default async function joinSplitZU (
+    url_input="O:\\Градостроительство\\2023\\ВДЦ ДАГЕСТАН\\11_GeoData\\3_vector\\Межевание\\Итоговый вариант\\",
+    input_xlsx_file="Этапы.xlsx"
+    ){
 
-const url_input = "O:\\Градостроительство\\2023\\ВДЦ ДАГЕСТАН\\11_GeoData\\3_vector\\Межевание\\Итоговый вариант\\"
-const input_xlsx_path = url_input+"Этапы.xlsx";
+const input_xlsx_path = url_input+input_xlsx_file;
 
 const input_xlsx = "./skript/js/temp_file/Этапы.xlsx"
 await fs.promises.copyFile(input_xlsx_path, input_xlsx)

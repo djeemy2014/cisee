@@ -1,1 +1,1 @@
-cd C:\Users\ddemidyuk\Documents\WORK\script\education\ && timeout /t 10 && npm start
+cd %~dp0 && timeout /t 10 && npm i && timeout /t 10 && npm start

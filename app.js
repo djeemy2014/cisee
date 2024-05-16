@@ -213,12 +213,13 @@ app.get('/creat_red_line_point',async function(req,res, next){
   console.log(req.ip)
   //req.end()
 })
-app.get('/workList',async function(req,res, next){
+app.get('/workList/:path',async function(req,res, next){
   const bodys={ user: 'server' }
   bodys.status='work'
   res.set({ 'content-type': 'application/json; charset=utf-8' });
   try{
     console.log('work') 
+    console.log(req.params.path) 
     await joinSplitZU().then(ev=>{bodys.path=ev});
     bodys.status='complit'
     console.log('complit')
