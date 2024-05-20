@@ -14,6 +14,7 @@ import {abcd} from './app/models/ceziumSee/ceziumSeeApp.js'
 import zu_point from './skript/js/split_point_plase_shp.js'
 import redLine from './skript/js/split_point_red_line_shp.js'
 import joinSplitZU from './skript/js/join_in_excel.js'
+import creaetProject from './skript/js/creaet_project.js'
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -28,6 +29,7 @@ console.log('directory-name 👉️', __dirname);
 
 
 const app=express()
+const urlencodedParser = express.urlencoded({extended: false});
 const host='10.0.1.56'
 const hostname = 'localhost' //'10.0.5.190'//'djeemy.testserver.com'
 const port= 18077
@@ -156,7 +158,20 @@ app.get('/',function(req,res) {
   loger(req,res)
   //console.log(req)
 });
-
+app.get('/test/creatProject',(req,res)=>{
+  res.sendFile(`./skript/creatProject.html`,optionsPath);
+  loger(req,res)
+})
+app.post('/test/creatProject',urlencodedParser, async (req,res)=>{
+  if(!req.body) return res.sendStatus(400);
+  console.log(0, req.params),
+  console.log(0, req.body),
+  console.log(0, req.query),
+  creaetProject(req.body.path).then(ev=>{res.send(`папки созданы ${ev}`);console.log(ev)})
+  //console.log(1, res),
+  //res.sendFile(`./skript/creatProject.html`,optionsPath);
+  res.send(`папки созданы`);
+})
 app.get('/dima', abcd)
 app.get('/testing',function(req,res){
   res.sendFile(`./skript/cesium_test/geodata/geojson/react/VDC_3857.geojson`,optionsPath);

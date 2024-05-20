@@ -4,7 +4,7 @@ import fs from 'fs';
 //базовый каталок
 //ПЕРЕПИСАТЬ НА отностительные пути C:\Users\ddemidyuk\Documents\WORK\Project\Хантамансийск
 //const baseFolder = 'O:\\Градостроительство\\2023\\ВЕДУЧИ';
-const baseFolder = 'O:/Градостроительство/2023/ВДЦ ДАГЕСТАН';
+const baseFolder = 'C:/Users/ddemidyuk/Documents/temp/123';
 //const projectDirectories =  fs.readFileSync('./schemProjekt.json', 'utf8');
 //const projectDirectories =  fs.readFileSync('C:\\Users\\ddemidyuk\\Documents\\WORK\\script\\education\\skript\\js\\schemProjekt.json', 'utf8');
 const projectDirectories =  fs.readFileSync('./skript/js/schemProjekt.json', 'utf8');
@@ -15,9 +15,11 @@ const projectDirectoriesJSON =  JSON.parse(projectDirectories);
 //const projectDirectories2 = JSONstr(projectDirectoriesJSON)
 //console.log(projectDirectories2)
 //описание каталогов проекта
-export async function creaetProject (baseFolder, projectDirectoriesJSON){
+export default async function creaetProject (baseFolder){
 //console.log(2, projectDirectoriesJSON)
-
+const projectDirectories =  fs.readFileSync('./skript/js/schemProjekt.json', 'utf8');
+//console.dir(projectDirectories)
+const projectDirectoriesJSON =  JSON.parse(projectDirectories);
 let resList=[], i=0
 
 async function createDirect(baseFolder, url){
@@ -41,24 +43,44 @@ try {
 
 async function readTree(baseFolder, array){
     //console.log(array)
-    array.forEach(elem=>{
-        createDirect(baseFolder+"\\", elem.directories).then(ev=>{
-            resList[i]=ev
-            //console.log(resList)
-            console.log(resList[i])
-            i++
+    // array.forEach(elem=>{
+    //     createDirect(baseFolder+"\\", elem.directories).then(ev=>{
+    //         resList[i]=ev
+    //         console.log(i)
+    //         console.log(resList[i])
+    //         i++
+    //     })
+    //     console.log(typeof elem.substructs)
+    //     if (elem.substructs != null){
+    //         readTree(baseFolder+"\\"+elem.directories, elem.substructs)
+    //     }else{
+    //         console.log("предел глубины") 
+    //     }
+    // })
+    return new Promise((res,rej)=>{
+        array.forEach(elem=>{
+            createDirect(baseFolder+"\\", elem.directories).then(ev=>{
+                resList[i]=ev
+                //console.log(i)
+                //console.log(resList[i])
+                res(resList)
+                i++
+            })
+            //console.log(typeof elem.substructs)
+            if (elem.substructs != null){
+                readTree(baseFolder+"\\"+elem.directories, elem.substructs)
+                    .then(
+                        (elem)=>{console.log(2, elem)}
+                    )
+            }else{
+                console.log("предел глубины") 
+            }
         })
-        console.log(typeof elem.substructs)
-        if (elem.substructs != null){
-            readTree(baseFolder+"\\"+elem.directories, elem.substructs)
-        }else{
-            console.log("предел глубины") 
-        }
-    
+        console.log(10, resList)
+        //res(resList)
     })
-
 }
-readTree(baseFolder, projectDirectoriesJSON)
+readTree(baseFolder, projectDirectoriesJSON).then((elem)=>{console.log(1, elem)})
 /* for (let vule of projectDirectories){
     createDirect(baseFolder, vule.directories).then(ev=>{
         resList[i]=ev
@@ -66,7 +88,8 @@ readTree(baseFolder, projectDirectoriesJSON)
         i++
     })
 } */
-//console.log(await resList)
-return new Promise(res=>{resList})
+
+console.log(resList)
+return new Promise((resolve, reject)=>{resList})
 }
-creaetProject(baseFolder, projectDirectoriesJSON).then(ev=>{console.log(ev)})
+//creaetProject(baseFolder).then(ev=>{console.log(ev)})
