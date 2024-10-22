@@ -25,7 +25,7 @@ import "cesium/Build/Cesium/Widgets/widgets.css";
 
 // Initialize the Cesium Viewer in the HTML element with the "cesiumContainer" ID.
 const viewer = new Cesium.Viewer('cesiumContainer', {
-  terrainProvider: Cesium.createWorldTerrainAsync(),
+  //terrainProvider: Cesium.createWorldTerrainAsync(),
   imageryProvider: Cesium.OpenStreetMapImageryProvider({
     url : 'https://tile.openstreetmap.org/'
 })

@@ -36,7 +36,7 @@ const port= 18077
 console.log(app.listen)
 const optionsPath={ root: __dirname }
 const options = {
-  host: host,
+  host: hostname,
   hostname: hostname,
   port: port,
   path: '/',
@@ -186,9 +186,13 @@ app.get('/skript/fetchPKK_10/',function(req,res) {
   res.sendFile(`./skript/fetchPKK_10.html`,optionsPath);
   loger(req,res)
 })
+app.get('/skript/domrf/',function(req,res) {
+  res.sendFile(`./skript/homerf.html`,optionsPath);
+  loger(req,res)
+})
 // Нужно сохранять позицию и посылать ее вместе с запросом, затем прехватывать ее и фиксировать (Lon,Lat,H)
 app.get('./cesium_test/Test_1.html',function(req,res) {
-  res.sendFile('./cesium_test/Test_1.html',optionsPath);
+  res.sendFile('./cesium_test/Test_0.html',optionsPath);
   loger(req,res)
 })
 app.get('/creaet_project',function(req,res){
@@ -253,8 +257,8 @@ app.get('/workList',async function(req,res, next){
   console.dir(req)
   console.dir(res)
 }) */
-setInterval(updatebd,36e5)
-updatebd();
+//setInterval(updatebd,36e5)
+//updatebd();
 
 app.listen(port, () => {
   console.log(`listening on host ${host} port ${port}`)
